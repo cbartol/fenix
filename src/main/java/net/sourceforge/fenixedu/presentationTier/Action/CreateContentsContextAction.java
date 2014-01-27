@@ -82,7 +82,7 @@ public class CreateContentsContextAction extends FenixAction {
     private MenuEntry getInitialMenuEntry(FunctionalityContext functionalityContext) {
         for (MenuEntry menuEntry : Portal.getRootPortal().getMenu()) {
             if (menuEntry.isNodeVisible() && !(menuEntry.getReferingContent() instanceof MetaDomainObjectPortal)
-                    && menuEntry.getReferingContent().isAvailable(functionalityContext)) {
+                    && menuEntry.getReferingContent().isAvailable()) {
                 return menuEntry;
             }
         }

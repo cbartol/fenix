@@ -57,9 +57,8 @@ public abstract class SiteVisualizationDA extends FenixDispatchAction {
         }
 
         User userView = prepareUserView(request);
-        FunctionalityContext context = prepareSectionContext(request);
 
-        if (item.isAvailable(context)) {
+        if (item.isAvailable()) {
             return mapping.findForward("site-item");
         } else {
             if (isAuthenticated(userView)) {
@@ -79,10 +78,9 @@ public abstract class SiteVisualizationDA extends FenixDispatchAction {
         }
 
         User userView = prepareUserView(request);
-        FunctionalityContext context = prepareSectionContext(request);
 
-        if (section.isAvailable(context)) {
-            prepareProtectedItems(request, userView, section.getOrderedItems(), context);
+        if (section.isAvailable()) {
+            prepareProtectedItems(request, userView, section.getOrderedItems());
             return mapping.findForward("site-section");
         } else {
             if (isAuthenticated(userView)) {
@@ -117,9 +115,8 @@ public abstract class SiteVisualizationDA extends FenixDispatchAction {
         }
     }
 
-    private void prepareProtectedItems(HttpServletRequest request, User userView, Collection<Item> items,
-            FunctionalityContext context) {
-        List<ProtectedItem> protectedItems = setupItems(request, context, items);
+    private void prepareProtectedItems(HttpServletRequest request, User userView, Collection<Item> items) {
+        List<ProtectedItem> protectedItems = setupItems(request, items);
 
         if (!isAuthenticated(userView) && hasRestrictedItems(protectedItems)) {
             request.setAttribute("hasRestrictedItems", true);
@@ -136,11 +133,11 @@ public abstract class SiteVisualizationDA extends FenixDispatchAction {
         return false;
     }
 
-    private List<ProtectedItem> setupItems(HttpServletRequest request, FunctionalityContext context, Collection<Item> items) {
+    private List<ProtectedItem> setupItems(HttpServletRequest request, Collection<Item> items) {
         List<ProtectedItem> protectedItems = new ArrayList<ProtectedItem>();
         for (Item item : items) {
             if (item.getVisible()) {
-                protectedItems.add(new ProtectedItem(context, item));
+                protectedItems.add(new ProtectedItem(item));
             }
         }
 

@@ -102,7 +102,7 @@ public class CheckAvailabilityFilter implements Filter {
 
     private boolean isAvailable(FilterFunctionalityContext functionalityContext) {
         for (Content content : functionalityContext.getSelectedContents()) {
-            if (!content.isAvailable(functionalityContext)) {
+            if (!content.isAvailable()) {
                 return false;
             }
         }

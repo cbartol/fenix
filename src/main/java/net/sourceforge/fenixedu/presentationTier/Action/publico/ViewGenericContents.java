@@ -13,7 +13,6 @@ import net.sourceforge.fenixedu.domain.Site;
 import net.sourceforge.fenixedu.domain.contents.Content;
 import net.sourceforge.fenixedu.domain.contents.MetaDomainObjectPortal;
 import net.sourceforge.fenixedu.domain.functionalities.AbstractFunctionalityContext;
-import net.sourceforge.fenixedu.domain.functionalities.FunctionalityContext;
 import net.sourceforge.fenixedu.presentationTier.Action.base.FenixDispatchAction;
 import net.sourceforge.fenixedu.presentationTier.servlets.filters.functionalities.FilterFunctionalityContext;
 
@@ -97,11 +96,10 @@ public class ViewGenericContents extends FenixDispatchAction {
         request.setAttribute("section", section);
         String type = getType(request);
         String forwardSufix = type.substring(type.lastIndexOf(".") + 1, type.length());
-        FilterFunctionalityContext context = getContext(request);
         User userView = Authenticate.getUser();
 
-        if (section.isAvailable(context)) {
-            prepareProtectedItems(request, userView, section.getOrderedItems(), context);
+        if (section.isAvailable()) {
+            prepareProtectedItems(request, userView, section.getOrderedItems());
             return mapping.findForward("viewSection-" + forwardSufix);
         } else {
             if (isAuthenticated(userView)) {
@@ -122,9 +120,7 @@ public class ViewGenericContents extends FenixDispatchAction {
         Item item = getItem(request);
         request.setAttribute("item", item);
 
-        FilterFunctionalityContext context = getContext(request);
-
-        request.setAttribute("itemAvailable", item.isAvailable(context));
+        request.setAttribute("itemAvailable", item.isAvailable());
 
         String type = getType(request);
 
@@ -164,9 +160,8 @@ public class ViewGenericContents extends FenixDispatchAction {
         return MetaDomainObjectPortal.getPortal(context.getLastContentInPath(Site.class).getClass());
     }
 
-    private void prepareProtectedItems(HttpServletRequest request, User userView, Collection<Item> items,
-            FunctionalityContext context) {
-        List<ProtectedItem> protectedItems = setupItems(request, context, items);
+    private void prepareProtectedItems(HttpServletRequest request, User userView, Collection<Item> items) {
+        List<ProtectedItem> protectedItems = setupItems(request, items);
 
         if (!isAuthenticated(userView) && hasRestrictedItems(protectedItems)) {
             request.setAttribute("hasRestrictedItems", true);
@@ -183,11 +178,11 @@ public class ViewGenericContents extends FenixDispatchAction {
         return false;
     }
 
-    private List<ProtectedItem> setupItems(HttpServletRequest request, FunctionalityContext context, Collection<Item> items) {
+    private List<ProtectedItem> setupItems(HttpServletRequest request, Collection<Item> items) {
         List<ProtectedItem> protectedItems = new ArrayList<ProtectedItem>();
         for (Item item : items) {
             if (item.getVisible()) {
-                protectedItems.add(new ProtectedItem(context, item));
+                protectedItems.add(new ProtectedItem(item));
             }
         }
 
