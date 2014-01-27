@@ -15,10 +15,8 @@ import net.sourceforge.fenixedu.domain.ExecutionYear;
 import net.sourceforge.fenixedu.domain.Item;
 import net.sourceforge.fenixedu.domain.Section;
 import net.sourceforge.fenixedu.domain.contents.Content;
-import net.sourceforge.fenixedu.domain.functionalities.FunctionalityContext;
 import net.sourceforge.fenixedu.presentationTier.Action.base.FenixDispatchAction;
 import net.sourceforge.fenixedu.presentationTier.Action.publico.ProtectedItem;
-import net.sourceforge.fenixedu.presentationTier.Action.publico.SimpleFunctionalityContext;
 import net.sourceforge.fenixedu.presentationTier.Action.utils.RequestUtils;
 
 import org.apache.struts.action.ActionForm;
@@ -150,12 +148,6 @@ public abstract class SiteVisualizationDA extends FenixDispatchAction {
         request.setAttribute("logged", isAuthenticated(userView));
 
         return userView;
-    }
-
-    private FunctionalityContext prepareSectionContext(HttpServletRequest request) {
-        FunctionalityContext context = new SimpleFunctionalityContext(request);
-        request.setAttribute("context", context);
-        return context;
     }
 
     private boolean isAuthenticated(User userView) {

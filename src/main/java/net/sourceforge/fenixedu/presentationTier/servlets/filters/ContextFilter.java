@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sourceforge.fenixedu.domain.contents.InvalidContentPathException;
 import net.sourceforge.fenixedu.domain.functionalities.FunctionalityContext;
-import net.sourceforge.fenixedu.presentationTier.servlets.filters.functionalities.FilterFunctionalityContext;
+import net.sourceforge.fenixedu.domain.functionalities.FunctionalityContext;
 import net.sourceforge.fenixedu.util.FenixConfigurationManager;
 
 import com.google.common.collect.Sets;
@@ -100,7 +100,7 @@ public class ContextFilter implements Filter {
     }
 
     private FunctionalityContext createContext(final HttpServletRequest httpServletRequest) {
-        return new FilterFunctionalityContext(httpServletRequest, Charset.defaultCharset().name());
+        return new FunctionalityContext(httpServletRequest, Charset.defaultCharset().name());
     }
 
     private void setContextAttibute(final HttpServletRequest servletRequest, final FunctionalityContext context) {

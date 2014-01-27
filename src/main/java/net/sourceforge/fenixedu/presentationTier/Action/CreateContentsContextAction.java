@@ -15,7 +15,7 @@ import net.sourceforge.fenixedu.domain.contents.MetaDomainObjectPortal;
 import net.sourceforge.fenixedu.domain.contents.Portal;
 import net.sourceforge.fenixedu.domain.functionalities.FunctionalityContext;
 import net.sourceforge.fenixedu.presentationTier.Action.base.FenixAction;
-import net.sourceforge.fenixedu.presentationTier.servlets.filters.functionalities.FilterFunctionalityContext;
+import net.sourceforge.fenixedu.domain.functionalities.FunctionalityContext;
 import net.sourceforge.fenixedu.util.FenixConfigurationManager;
 
 import org.apache.struts.action.ActionForm;
@@ -33,7 +33,7 @@ public class CreateContentsContextAction extends FenixAction {
             HttpServletResponse response) throws Exception {
 
         final FunctionalityContext functionalityContext =
-                new FilterFunctionalityContext(request, Collections.<Content> emptyList());
+                new FunctionalityContext(request, Collections.<Content> emptyList());
         request.setAttribute(FunctionalityContext.CONTEXT_KEY, functionalityContext);
 
         final MenuEntry initialMenuEntry = getInitialMenuEntry(functionalityContext);

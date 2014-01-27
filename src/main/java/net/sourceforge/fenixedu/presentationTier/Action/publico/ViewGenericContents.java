@@ -12,9 +12,8 @@ import net.sourceforge.fenixedu.domain.Section;
 import net.sourceforge.fenixedu.domain.Site;
 import net.sourceforge.fenixedu.domain.contents.Content;
 import net.sourceforge.fenixedu.domain.contents.MetaDomainObjectPortal;
-import net.sourceforge.fenixedu.domain.functionalities.AbstractFunctionalityContext;
 import net.sourceforge.fenixedu.presentationTier.Action.base.FenixDispatchAction;
-import net.sourceforge.fenixedu.presentationTier.servlets.filters.functionalities.FilterFunctionalityContext;
+import net.sourceforge.fenixedu.domain.functionalities.FunctionalityContext;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -132,17 +131,17 @@ public class ViewGenericContents extends FenixDispatchAction {
         return getPortal(request).getType();
     }
 
-    private FilterFunctionalityContext getContext(HttpServletRequest request) {
-        return (FilterFunctionalityContext) AbstractFunctionalityContext.getCurrentContext(request);
+    private FunctionalityContext getContext(HttpServletRequest request) {
+        return (FunctionalityContext) FunctionalityContext.getCurrentContext(request);
     }
 
     private Content getLastContentInPathWithClass(HttpServletRequest request, Class clazz) {
-        FilterFunctionalityContext context = getContext(request);
+        FunctionalityContext context = getContext(request);
         return context.getLastContentInPath(clazz);
     }
 
     private Content getLastContentInPath(HttpServletRequest request) {
-        FilterFunctionalityContext context = getContext(request);
+        FunctionalityContext context = getContext(request);
         List<Content> contents = context.getSelectedContents();
         return context.getSelectedContents().get(contents.size() - 1);
     }
@@ -156,7 +155,7 @@ public class ViewGenericContents extends FenixDispatchAction {
     }
 
     private MetaDomainObjectPortal getPortal(HttpServletRequest request) {
-        FilterFunctionalityContext context = (FilterFunctionalityContext) AbstractFunctionalityContext.getCurrentContext(request);
+        FunctionalityContext context = (FunctionalityContext) FunctionalityContext.getCurrentContext(request);
         return MetaDomainObjectPortal.getPortal(context.getLastContentInPath(Site.class).getClass());
     }
 

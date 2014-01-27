@@ -20,7 +20,7 @@ import net.sourceforge.fenixedu.domain.contents.FunctionalityCall;
 import net.sourceforge.fenixedu.domain.contents.Redirect;
 import net.sourceforge.fenixedu.domain.functionalities.Functionality;
 import net.sourceforge.fenixedu.domain.functionalities.FunctionalityContext;
-import net.sourceforge.fenixedu.presentationTier.servlets.filters.functionalities.FilterFunctionalityContext;
+import net.sourceforge.fenixedu.domain.functionalities.FunctionalityContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,8 +50,8 @@ public class ContentFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) initialRequest;
         HttpServletResponse response = (HttpServletResponse) initialResponse;
 
-        final FilterFunctionalityContext functionalityContext =
-                (FilterFunctionalityContext) getContextAttibute((HttpServletRequest) initialRequest);
+        final FunctionalityContext functionalityContext =
+                (FunctionalityContext) getContextAttibute((HttpServletRequest) initialRequest);
 
         if (functionalityContext == null || functionalityContext.getSelectedContents().isEmpty()
                 || functionalityContext.hasBeenForwarded()) {
@@ -63,7 +63,7 @@ public class ContentFilter implements Filter {
     }
 
     private void dispatchTo(final HttpServletRequest httpServletRequest, final HttpServletResponse httpServletResponse,
-            final FilterFunctionalityContext functionalityContext, String path) throws ServletException, IOException {
+            final FunctionalityContext functionalityContext, String path) throws ServletException, IOException {
         httpServletRequest.setAttribute(ContentInjectionRewriter.CONTEXT_ATTRIBUTE_NAME,
                 functionalityContext.getCurrentContextPath());
         final RequestDispatcher requestDispatcher = httpServletRequest.getRequestDispatcher(path);
@@ -72,7 +72,7 @@ public class ContentFilter implements Filter {
     }
 
     private void contentsForward(final HttpServletRequest httpServletRequest, final HttpServletResponse httpServletResponse,
-            final FilterFunctionalityContext functionalityContext) throws ServletException, IOException {
+            final FunctionalityContext functionalityContext) throws ServletException, IOException {
 
         Content content = functionalityContext.getSelectedContent();
 

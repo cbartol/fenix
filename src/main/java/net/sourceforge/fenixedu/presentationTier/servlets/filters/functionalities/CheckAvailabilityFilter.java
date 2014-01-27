@@ -70,7 +70,7 @@ public class CheckAvailabilityFilter implements Filter {
     public void doFilter(final HttpServletRequest httpServletRequest, final HttpServletResponse httpServletResponse,
             final FilterChain filterChain) throws IOException, ServletException {
 
-        final FilterFunctionalityContext functionalityContext = getContextAttibute(httpServletRequest);
+        final FunctionalityContext functionalityContext = getContextAttibute(httpServletRequest);
 
         // If we are not dealing with a functionality, just keep going
         if (functionalityContext == null || functionalityContext.getSelectedContent() == null
@@ -100,7 +100,7 @@ public class CheckAvailabilityFilter implements Filter {
         }
     }
 
-    private boolean isAvailable(FilterFunctionalityContext functionalityContext) {
+    private boolean isAvailable(FunctionalityContext functionalityContext) {
         for (Content content : functionalityContext.getSelectedContents()) {
             if (!content.isAvailable()) {
                 return false;
@@ -116,8 +116,8 @@ public class CheckAvailabilityFilter implements Filter {
                 || requestURI.endsWith(".gif");
     }
 
-    private FilterFunctionalityContext getContextAttibute(final HttpServletRequest httpServletRequest) {
-        return (FilterFunctionalityContext) httpServletRequest.getAttribute(FunctionalityContext.CONTEXT_KEY);
+    private FunctionalityContext getContextAttibute(final HttpServletRequest httpServletRequest) {
+        return (FunctionalityContext) httpServletRequest.getAttribute(FunctionalityContext.CONTEXT_KEY);
     }
 
     /**
