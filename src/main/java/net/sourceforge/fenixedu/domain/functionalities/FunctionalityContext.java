@@ -22,8 +22,6 @@ import net.sourceforge.fenixedu.domain.contents.Redirect;
 import net.sourceforge.fenixedu.presentationTier.servlets.filters.ContentInjectionRewriter;
 
 import org.fenixedu.bennu.core.domain.Bennu;
-import org.fenixedu.bennu.core.domain.User;
-import org.fenixedu.bennu.core.security.Authenticate;
 
 /**
  * The context in wich a functionality is being executed.
@@ -38,30 +36,22 @@ public final class FunctionalityContext {
      */
     public static final String CONTEXT_KEY = FunctionalityContext.class.getName() + ".CONTEXT";
 
-    public static final String CONTEXT_ATTRIBUTE_NAME = "contentContextPath";
-
     private final HttpServletRequest request;
-    private final User userView;
 
-    protected String encoding = Charset.defaultCharset().name();
+    private String encoding = Charset.defaultCharset().name();
 
-    List<Content> contents = new ArrayList<Content>();
+    private final List<Content> contents = new ArrayList<Content>();
 
-    String selectedContainerPath;
-
-    public boolean hasBeenForwarded = false;
+    private String selectedContainerPath;
 
     public FunctionalityContext(final HttpServletRequest request, final List<Content> contentsToAdd) {
-
         this.request = request;
-        this.userView = Authenticate.getUser();
         this.contents.addAll(contentsToAdd);
         findSelectedContainerPath();
     }
 
     public FunctionalityContext(final HttpServletRequest request, final String encodingParam) {
         this.request = request;
-        this.userView = Authenticate.getUser();
         this.encoding = encodingParam;
 
         String path = getRequestedPath();
@@ -85,16 +75,7 @@ public final class FunctionalityContext {
         return this.request;
     }
 
-    public User getUserView() {
-        return this.userView;
-    }
-
-    public User getLoggedUser() {
-        final User userView = getUserView();
-        return userView == null ? null : userView.getPerson().getUser();
-    }
-
-    protected String getPath(final String encoding) {
+    private String getPath(final String encoding) {
         final String requestedPath = getRequest().getRequestURI().substring(getRequest().getContextPath().length());
         try {
             if (requestedPath.matches("/dotIstPortal.do")) {
@@ -106,31 +87,10 @@ public final class FunctionalityContext {
         }
     }
 
-    protected String getParentPath() {
-        return getParentPath(getPath(encoding));
-    }
-
-    protected String getSubPath() {
-        return getSubPath(getPath(encoding));
-    }
-
-    protected static String getSubPath(final String path) {
-        final int indexOfSlash = path.indexOf('/');
-        return indexOfSlash >= 0 ? path.substring(0, indexOfSlash) : path;
-    }
-
-    protected static String getParentPath(final String path) {
-        final int indexOfLantSlash = path.lastIndexOf('/');
-        return indexOfLantSlash >= 0 ? path.substring(0, indexOfLantSlash) : null;
-    }
-
     private String getRequestedPath() {
         String path = getCurrentContextPathFromRequest();
         if (path == null) {
             path = getPath(encoding);
-            hasBeenForwarded = false;
-        } else {
-            hasBeenForwarded = true;
         }
 
         return path;
@@ -140,7 +100,6 @@ public final class FunctionalityContext {
         final String pathFromRequest = getCurrentContextPathFromRequest();
 
         if (pathFromRequest != null) {
-            hasBeenForwarded = true;
             contents.clear();
             Portal.getRootPortal().addPathContentsForTrailingPath(contents, getTrailingPath(pathFromRequest));
             final Content lastContent = contents.isEmpty() ? null : contents.get(contents.size() - 1);
@@ -261,14 +220,10 @@ public final class FunctionalityContext {
         final int indexOfContainer = contents.indexOf(container);
         final int indexOfContent = contents.indexOf(content);
         return indexOfContainer <= indexOfContent && indexOfContainer >= 0 ? contents.subList(indexOfContainer,
-                indexOfContent + 1) : getEmptyList();
+                indexOfContent + 1) : Collections.<Content> emptyList();
     }
 
-    private static List<Content> getEmptyList() {
-        return Collections.emptyList();
-    }
-
-    protected String getCurrentContextPathFromRequest() {
+    private String getCurrentContextPathFromRequest() {
         final HttpServletRequest httpServletRequest = getRequest();
         String currentContextPath = httpServletRequest.getParameter(ContentInjectionRewriter.CONTEXT_ATTRIBUTE_NAME);
         if (currentContextPath == null || currentContextPath.length() == 0) {
@@ -308,12 +263,7 @@ public final class FunctionalityContext {
         return currentContextPath.length() > 1 ? currentContextPath : null;
     }
 
-    public boolean hasBeenForwarded() {
-        return hasBeenForwarded;
-    }
-
     public void setHasBeenForwarded() {
-        this.hasBeenForwarded = true;
     }
 
     public void addContent(Content content) {
@@ -337,8 +287,7 @@ public final class FunctionalityContext {
     }
 
     public static FunctionalityContext getCurrentContext(HttpServletRequest request) {
-        FunctionalityContext context = (FunctionalityContext) request.getAttribute(FunctionalityContext.CONTEXT_KEY);
-        return context;
+        return (FunctionalityContext) request.getAttribute(FunctionalityContext.CONTEXT_KEY);
     }
 
 }
