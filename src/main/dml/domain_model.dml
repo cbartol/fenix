@@ -6382,10 +6382,6 @@ class elections.DelegateElectionVotingPeriod extends elections.DelegateElectionP
                 
             }
 
-    class functionalities.FunctionalityParameter  {
-        String name;
-}
-
         class contents.Container extends contents.Content {
             Boolean maximizable;
             String prefix;
@@ -17918,13 +17914,6 @@ relation FunctionalityExecutionPath {
     functionalities.ExecutionPath playsRole executionPathValue;
 }
 
-relation FunctionalityHasParameters {
-    functionalities.Functionality playsRole functionality;
-    functionalities.FunctionalityParameter playsRole parameters {
-        multiplicity *;
-    }
-}
-
 relation RootModule {
     .org.fenixedu.bennu.core.domain.Bennu playsRole moduleRootDomainObject;
     functionalities.Module playsRole rootModule;
@@ -17940,13 +17929,6 @@ relation ContainerPointsContent {
                 multiplicity *;
         }
     contents.Content playsRole initialContent;
-}
-
-relation RootDomainObjectFunctionalityParameter {
-    .org.fenixedu.bennu.core.domain.Bennu playsRole rootDomainObject;
-    functionalities.FunctionalityParameter playsRole functionalityParameters {
-                multiplicity *;
-        }
 }
 
 relation ExecutionPathRootDomainObject {

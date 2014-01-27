@@ -16,20 +16,6 @@
     </slot>
 </schema>
 
-<schema name="functionalities.functionality.parameter.view"
-        type="net.sourceforge.fenixedu.domain.functionalities.FunctionalityParameter"
-        bundle="FUNCTIONALITY_RESOURCES">
-        <slot name="name"/>
-</schema>
-        
-<schema name="functionalities.functionality.parameter.create"
-        type="net.sourceforge.fenixedu.domain.functionalities.FunctionalityParameter"
-        bundle="FUNCTIONALITY_RESOURCES" constructor="functionality, name">
-        <slot name="name" validator="pt.ist.fenixWebFramework.renderers.validators.RequiredValidator"/>
-        <slot name="functionality" hidden="true"/>
-</schema>
-
-
 <schema name="functionalities.module.input" 
         type="net.sourceforge.fenixedu.domain.functionalities.Module"
         bundle="FUNCTIONALITY_RESOURCES">

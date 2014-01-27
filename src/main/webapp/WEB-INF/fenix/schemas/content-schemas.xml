@@ -101,11 +101,6 @@
 	<slot name="path"/>
 </schema>
 
-<schema name="view.contents.functionalityParemeter.details" type="net.sourceforge.fenixedu.domain.functionalities.FunctionalityParameter">
-	<slot name="name"/>
-	<slot name="type.type"/>
-</schema>
-
 <schema name="edit.contents.content" type="net.sourceforge.fenixedu.domain.contents.Content" bundle="CONTENT_RESOURCES">
 	<slot name="name"/>
 </schema>

@@ -261,81 +261,6 @@ public class Functionality extends Functionality_Base implements IFunctionality 
         return ((ExplicitOrderNode) getParentNode(getModule())).getNodeOrder();
     }
 
-    public void setParameters(String parameters) {
-        for (FunctionalityParameter parameter : getParameters()) {
-            parameter.delete();
-        }
-
-        if (parameters != null && parameters.trim().length() > 0) {
-            String[] parts = parameters.split(",");
-            for (String part : parts) {
-                new FunctionalityParameter(this, part.trim());
-            }
-        }
-    }
-
-    public String getParametersString() {
-        StringBuilder builder = new StringBuilder();
-
-        for (String name : getParameterList()) {
-            if (builder.length() > 0) {
-                builder.append(", ");
-            }
-
-            builder.append(name);
-        }
-
-        return builder.toString();
-    }
-
-    /**
-     * Convenience method for accessing the functionality {@link #getParameters
-     * parameters}.
-     * 
-     * @return a list with all the parameters
-     */
-    public List<String> getParameterList() {
-        List<String> list = new ArrayList<String>();
-
-        for (FunctionalityParameter parameter : getParameters()) {
-            list.add(parameter.getName());
-        }
-
-        return list;
-    }
-
-    /**
-     * Convenience method that receives the parameters as a list an converts the
-     * list to a string were parameters are separated by commas before setting
-     * the parameters.
-     * 
-     * @param parametersList
-     *            the list of parameters that will be set
-     */
-    public void setParameterList(List<String> parametersList) {
-        StringBuilder parameters = new StringBuilder();
-
-        for (String parameter : parametersList) {
-            if (parameters.length() > 0) {
-                parameters.append(",");
-            }
-
-            parameters.append(parameter);
-        }
-
-        setParameters(parameters.toString());
-    }
-
-    /**
-     * Determines if this functionality is parameterized, that is, if it expects
-     * any parameters to be passed in order to work properly.
-     * 
-     * @return true if any parameter was specified for this action
-     */
-    public boolean isParameterized() {
-        return hasAnyParameters();
-    }
-
     /**
      * Moves this position up one place inside the holding module.
      */
@@ -496,41 +421,10 @@ public class Functionality extends Functionality_Base implements IFunctionality 
         return super.isAvailable();
     }
 
-    /**
-     * Checks if all the parameters required by the {@link #getFunctionality()
-     * functionality} are present in the given context. A parameter is present
-     * in the context if the current request contains a <code>null</code> for
-     * that parameter.
-     * 
-     * <p>
-     * If the functionality {@link Functionality#isParameterized()} is not parameterized then, by definition, the context has all
-     * the required parameters.
-     * 
-     * @param context
-     *            the context used to check for parameter existance
-     * @return <code>true</code> if the functionality is not parameterized or if
-     *         the current request, available from the given context, contains
-     *         all the required parameters
-     */
-    protected boolean hasRequiredParameters(FunctionalityContext context) {
-        if (isParameterized()) {
-            for (String parameter : getParameterList()) {
-                if (context.getRequest().getParameter(parameter) == null) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
     @Override
     protected void disconnect() {
         if (hasExecutionPathValue()) {
             getExecutionPathValue().delete();
-        }
-        for (final FunctionalityParameter functionalityParameter : getParametersSet()) {
-            functionalityParameter.delete();
         }
 
         for (FunctionalityCall functionalityCall : getFunctionalityCallsSet()) {
@@ -690,16 +584,6 @@ public class Functionality extends Functionality_Base implements IFunctionality 
             }
         }
         return null;
-    }
-
-    @Deprecated
-    public java.util.Set<net.sourceforge.fenixedu.domain.functionalities.FunctionalityParameter> getParameters() {
-        return getParametersSet();
-    }
-
-    @Deprecated
-    public boolean hasAnyParameters() {
-        return !getParametersSet().isEmpty();
     }
 
     @Deprecated

@@ -58,7 +58,3 @@
 	</fr:layout>
 </fr:view>
 
-<fr:create id="createFunctionalityParameter" action="<%= "/functionality/view.do?functionality=" + id %>" type="net.sourceforge.fenixedu.domain.functionalities.FunctionalityParameter" 
-	schema="functionalities.functionality.parameter.create">
-	<fr:hidden slot="functionality" name="functionality"/>
-</fr:create>

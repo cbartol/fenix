@@ -11,14 +11,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sourceforge.fenixedu.applicationTier.Servico.exceptions.FenixServiceException;
-import net.sourceforge.fenixedu.applicationTier.Servico.manager.functionalities.DeleteFunctionalityParameter;
 import net.sourceforge.fenixedu.domain.accessControl.groups.language.exceptions.GroupExpressionException;
 import net.sourceforge.fenixedu.domain.contents.Content;
 import net.sourceforge.fenixedu.domain.contents.ExplicitOrderNode;
 import net.sourceforge.fenixedu.domain.functionalities.ExpressionGroupAvailability;
 import net.sourceforge.fenixedu.domain.functionalities.Functionality;
-import net.sourceforge.fenixedu.domain.functionalities.FunctionalityParameter;
 import net.sourceforge.fenixedu.domain.functionalities.GroupAvailability;
 import net.sourceforge.fenixedu.domain.functionalities.IFunctionality;
 import net.sourceforge.fenixedu.domain.functionalities.Module;
@@ -269,9 +266,6 @@ public class FunctionalityManagementAction extends FunctionalitiesDispatchAction
                 element.setAttribute("path", f.getPath());
             }
 
-            if (f.getParameters() != null) {
-                element.setAttribute("parameters", f.getParametersString());
-            }
         }
 
         IFunctionality f = (IFunctionality) functionality;
@@ -313,27 +307,6 @@ public class FunctionalityManagementAction extends FunctionalitiesDispatchAction
             element.addContent(new Text(mlString.getContent(language)));
             parent.addContent(element);
         }
-    }
-
-    public ActionForward removeParameter(ActionMapping mapping, ActionForm actionForm, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        FunctionalityParameter functionalityParameter = getFunctionalityParameter(request);
-        Content functionality = getFunctionality(request);
-
-        if (functionalityParameter != null) {
-            deleteFunctionalityParameter(functionalityParameter);
-        }
-
-        return forwardTo(mapping.findForward("view"), request, functionality);
-    }
-
-    private void deleteFunctionalityParameter(FunctionalityParameter functionalityParameter) throws FenixServiceException {
-        DeleteFunctionalityParameter.run(functionalityParameter);
-
-    }
-
-    protected FunctionalityParameter getFunctionalityParameter(HttpServletRequest request) {
-        return getDomainObject(request, "functionalityParameter");
     }
 
 }

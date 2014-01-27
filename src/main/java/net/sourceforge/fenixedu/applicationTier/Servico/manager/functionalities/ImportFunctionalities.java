@@ -95,7 +95,6 @@ public class ImportFunctionalities {
             if (content == null) {
                 String path = functionalityElement.getAttributeValue("path");
                 String prefix = functionalityElement.getAttributeValue("prefix");
-                String parameters = functionalityElement.getAttributeValue("parameters");
 
                 MultiLanguageString name = importMultiLanguageString(functionalityElement.getChild("name"));
                 MultiLanguageString title = importMultiLanguageString(functionalityElement.getChild("title"));
@@ -131,7 +130,6 @@ public class ImportFunctionalities {
                 if (content instanceof Functionality) {
                     Functionality f = (Functionality) content;
                     f.setExecutionPath(path);
-                    f.setParameters(parameters);
                     f.setModule(module);
                 } else if (content instanceof Module) {
                     Module m = (Module) content;
