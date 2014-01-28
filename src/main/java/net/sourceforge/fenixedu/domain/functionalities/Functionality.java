@@ -19,9 +19,6 @@ import net.sourceforge.fenixedu.domain.contents.ExplicitOrderNode;
 import net.sourceforge.fenixedu.domain.contents.Node;
 import net.sourceforge.fenixedu.domain.functionalities.exceptions.IllegalOrderInModuleException;
 import net.sourceforge.fenixedu.domain.functionalities.exceptions.MatchPathConflictException;
-
-import org.fenixedu.bennu.core.domain.Bennu;
-
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 /**
@@ -94,19 +91,6 @@ public class Functionality extends Functionality_Base implements IFunctionality 
             super.setDescription(null);
         } else {
             super.setDescription(description);
-        }
-    }
-
-    @Override
-    public void setExecutionPath(final String executionPathString) {
-        invalidatePath();
-        super.setExecutionPath(executionPathString);
-        final ExecutionPath executionPath = getExecutionPathValue();
-        if (executionPath != null) {
-            executionPath.delete();
-        }
-        if (executionPathString != null) {
-            new ExecutionPath(this, executionPathString);
         }
     }
 
@@ -421,15 +405,6 @@ public class Functionality extends Functionality_Base implements IFunctionality 
     }
 
     @Override
-    protected void disconnect() {
-        if (hasExecutionPathValue()) {
-            getExecutionPathValue().delete();
-        }
-
-        super.disconnect();
-    }
-
-    @Override
     public void delete() {
         Functionality.UUID_TABLE.remove(getContentId());
         super.delete();
@@ -555,35 +530,6 @@ public class Functionality extends Functionality_Base implements IFunctionality 
             path = stringBuilder.toString();
         }
         return path;
-    }
-
-    //
-    // FunctionalityContext
-    //
-
-    public static Functionality findByExecutionPath(final String executionPathValue) {
-        int endIndex = executionPathValue.indexOf('?');
-        int firstIndex =
-                endIndex > 0 ? executionPathValue.substring(0, endIndex).lastIndexOf("/") : executionPathValue.lastIndexOf("/");
-
-        if (endIndex > firstIndex) {
-            String firstLookupPath =
-                    executionPathValue.substring(firstIndex > 0 ? firstIndex : 0,
-                            endIndex > 0 ? endIndex : executionPathValue.length());
-            for (final ExecutionPath executionPath : Bennu.getInstance().getExecutionPathsSet()) {
-                if (executionPath.getExecutionPath().contains(firstLookupPath)) {
-                    if (executionPathValue.startsWith(executionPath.getFunctionality().getPath())) {
-                        return executionPath.getFunctionality();
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    @Deprecated
-    public boolean hasExecutionPathValue() {
-        return getExecutionPathValue() != null;
     }
 
     @Deprecated

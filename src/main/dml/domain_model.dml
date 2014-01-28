@@ -6337,11 +6337,6 @@ class elections.DelegateElectionVotingPeriod extends elections.DelegateElectionP
                 Boolean publication;
     }
 
-                        class functionalities.ExecutionPath  {
-                            String executionPath;
-                            String contentId;
-}
-
             class functionalities.Functionality extends contents.Element {
                 //MultiLanguageString description;
                 //Integer orderInModule;
@@ -17837,11 +17832,6 @@ relation NodeRootDomainObject {
     }
 }
 
-relation FunctionalityExecutionPath {
-    functionalities.Functionality playsRole functionality;
-    functionalities.ExecutionPath playsRole executionPathValue;
-}
-
 relation RootModule {
     .org.fenixedu.bennu.core.domain.Bennu playsRole moduleRootDomainObject;
     functionalities.Module playsRole rootModule;
@@ -17857,13 +17847,6 @@ relation ContainerPointsContent {
                 multiplicity *;
         }
     contents.Content playsRole initialContent;
-}
-
-relation ExecutionPathRootDomainObject {
-        .org.fenixedu.bennu.core.domain.Bennu playsRole rootDomainObject;
-        functionalities.ExecutionPath playsRole executionPaths {
-                multiplicity *;
-        }
 }
 
 relation MetaDomainObjectPortalBennu {
