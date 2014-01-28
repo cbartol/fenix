@@ -9,7 +9,6 @@ import java.util.TreeSet;
 
 import net.sourceforge.fenixedu.domain.FileContent;
 import net.sourceforge.fenixedu.domain.functionalities.AvailabilityPolicy;
-import net.sourceforge.fenixedu.domain.functionalities.Functionality;
 
 import org.apache.commons.lang.StringUtils;
 import org.fenixedu.bennu.core.domain.Bennu;
@@ -240,7 +239,7 @@ public abstract class Container extends Container_Base {
     }
 
     public void addChild(final Content content) {
-        createChildNode(content instanceof Functionality ? new FunctionalityCall((Functionality) content) : content);
+        createChildNode(content);
     }
 
     protected abstract Node createChildNode(final Content childContent);

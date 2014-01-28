@@ -465,13 +465,6 @@ public abstract class Content extends Content_Base {
         return false;
     }
 
-    public void logRemoveFunctionalityCall(FunctionalityCall functionalityCall) {
-        Content cont = getUniqueParentContainer();
-        if (cont != null) {
-            cont.logRemoveFunctionalityCall(functionalityCall);
-        }
-    }
-
     public void logDeleteNode() {
     }
 

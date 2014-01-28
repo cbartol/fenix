@@ -33,7 +33,6 @@ import net.sourceforge.fenixedu.domain.Site;
 import net.sourceforge.fenixedu.domain.contents.Attachment;
 import net.sourceforge.fenixedu.domain.contents.Container;
 import net.sourceforge.fenixedu.domain.contents.Content;
-import net.sourceforge.fenixedu.domain.contents.FunctionalityCall;
 import net.sourceforge.fenixedu.domain.contents.Node;
 import net.sourceforge.fenixedu.domain.exceptions.DomainException;
 import net.sourceforge.fenixedu.domain.functionalities.Functionality;
@@ -247,7 +246,7 @@ public abstract class SiteManagementDA extends FenixDispatchAction {
     public ActionForward functionality(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response) {
         Site site = getSite(request);
-        FunctionalityCall functionality = getFunctionalityCall(request);
+        Functionality functionality = getFunctionalityCall(request);
 
         List<Content> contents = site.getPathTo(functionality);
         Content selectedContent = contents.get(contents.size() - 2);
@@ -757,14 +756,14 @@ public abstract class SiteManagementDA extends FenixDispatchAction {
         return (Site) FenixFramework.getDomainObject(siteId);
     }
 
-    protected FunctionalityCall getFunctionalityCall(HttpServletRequest request) {
+    protected Functionality getFunctionalityCall(HttpServletRequest request) {
         String functionalityId = request.getParameter("functionalityID");
 
         if (functionalityId == null) {
             return null;
         }
 
-        return (FunctionalityCall) FenixFramework.getDomainObject(functionalityId);
+        return FenixFramework.getDomainObject(functionalityId);
     }
 
     protected abstract String getAuthorNameForFile(HttpServletRequest request);

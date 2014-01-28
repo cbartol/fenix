@@ -96,11 +96,6 @@
 </schema>
 
 
-<schema name="view.contents.details.FunctionalityCall" type="net.sourceforge.fenixedu.domain.contents.FunctionalityCall" extends="view.contents.Content" bundle="CONTENT_RESOURCES">
-	<slot name="functionality.executionPath" key="label.executionPath"/>
-	<slot name="path"/>
-</schema>
-
 <schema name="edit.contents.content" type="net.sourceforge.fenixedu.domain.contents.Content" bundle="CONTENT_RESOURCES">
 	<slot name="name"/>
 </schema>
@@ -121,9 +116,6 @@
 		<property name="eachLayout" value=""/>
 		<property name="eachSchema" value="view.contents.functionalityParemeter.details"/>
 	</slot>
-</schema>
-
-<schema name="edit.contents.FunctionalityCall" type="net.sourceforge.fenixedu.domain.contents.FunctionalityCall" bundle="CONTENT_RESOURCES" extends="edit.contents.content">
 </schema>
 
 <schema name="edit.contents.MetaDomainObjectPortal" type="net.sourceforge.fenixedu.domain.contents.MetaDomainObjectPortal" bundle="CONTENT_RESOURCES" extends="edit.contents.content">

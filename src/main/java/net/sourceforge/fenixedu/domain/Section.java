@@ -16,7 +16,6 @@ import net.sourceforge.fenixedu.domain.contents.Attachment;
 import net.sourceforge.fenixedu.domain.contents.Container;
 import net.sourceforge.fenixedu.domain.contents.Content;
 import net.sourceforge.fenixedu.domain.contents.ExplicitOrderNode;
-import net.sourceforge.fenixedu.domain.contents.FunctionalityCall;
 import net.sourceforge.fenixedu.domain.contents.Node;
 import net.sourceforge.fenixedu.domain.functionalities.FunctionalityContext;
 
@@ -373,10 +372,6 @@ public class Section extends Section_Base {
     @Override
     public String getPath() {
         return (isContainerMaximizable() && getInitialContent() != null) ? getInitialContent().getPath() : null;
-    }
-
-    public Collection<FunctionalityCall> getAssociatedFunctionalities() {
-        return getChildren(FunctionalityCall.class);
     }
 
     @Override

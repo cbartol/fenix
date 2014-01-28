@@ -6353,10 +6353,6 @@ class elections.DelegateElectionVotingPeriod extends elections.DelegateElectionP
                 Boolean visible;
     }
     
-            class contents.FunctionalityCall extends contents.Element {
-                
-            }
-
         class contents.Container extends contents.Content {
             Boolean maximizable;
             String prefix;
@@ -17819,13 +17815,6 @@ relation ContentRootDomainObject {
     }
 }
 
-
-relation FunctionalityFunctionalityCall {
-    functionalities.Functionality playsRole functionality;
-    contents.FunctionalityCall playsRole functionalityCalls {
-        multiplicity *;
-    }
-}
 
 relation ContainerNode {
     contents.Container playsRole parent;

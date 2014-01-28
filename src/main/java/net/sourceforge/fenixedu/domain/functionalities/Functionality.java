@@ -16,7 +16,6 @@ import java.util.WeakHashMap;
 
 import net.sourceforge.fenixedu.domain.contents.Content;
 import net.sourceforge.fenixedu.domain.contents.ExplicitOrderNode;
-import net.sourceforge.fenixedu.domain.contents.FunctionalityCall;
 import net.sourceforge.fenixedu.domain.contents.Node;
 import net.sourceforge.fenixedu.domain.functionalities.exceptions.IllegalOrderInModuleException;
 import net.sourceforge.fenixedu.domain.functionalities.exceptions.MatchPathConflictException;
@@ -427,10 +426,6 @@ public class Functionality extends Functionality_Base implements IFunctionality 
             getExecutionPathValue().delete();
         }
 
-        for (FunctionalityCall functionalityCall : getFunctionalityCallsSet()) {
-            functionalityCall.delete();
-        }
-
         super.disconnect();
     }
 
@@ -584,16 +579,6 @@ public class Functionality extends Functionality_Base implements IFunctionality 
             }
         }
         return null;
-    }
-
-    @Deprecated
-    public java.util.Set<net.sourceforge.fenixedu.domain.contents.FunctionalityCall> getFunctionalityCalls() {
-        return getFunctionalityCallsSet();
-    }
-
-    @Deprecated
-    public boolean hasAnyFunctionalityCalls() {
-        return !getFunctionalityCallsSet().isEmpty();
     }
 
     @Deprecated

@@ -10,7 +10,6 @@ import net.sourceforge.fenixedu.domain.accessControl.ExecutionCourseTeachersAndS
 import net.sourceforge.fenixedu.domain.accessControl.ExecutionCourseTeachersGroup;
 import net.sourceforge.fenixedu.domain.contents.Attachment;
 import net.sourceforge.fenixedu.domain.contents.Content;
-import net.sourceforge.fenixedu.domain.contents.FunctionalityCall;
 import net.sourceforge.fenixedu.domain.contents.Node;
 import net.sourceforge.fenixedu.domain.exceptions.DomainException;
 import net.sourceforge.fenixedu.domain.messaging.ExecutionCourseForum;
@@ -215,13 +214,6 @@ public class ExecutionCourseSite extends ExecutionCourseSite_Base {
                 "log.executionCourse.content.section.institutional", childContent.getName().getContent(),
                 getSiteExecutionCourse().getNome(), getSiteExecutionCourse().getDegreePresentationString());
         return super.createChildNode(childContent);
-    }
-
-    @Override
-    public void logRemoveFunctionalityCall(FunctionalityCall functionalityCall) {
-        ContentManagementLog.createLog(getSiteExecutionCourse(), "resources.MessagingResources",
-                "log.executionCourse.content.section.remove.institutional", functionalityCall.getName().getContent(),
-                getSiteExecutionCourse().getNome(), getSiteExecutionCourse().getDegreePresentationString());
     }
 
     @Override
