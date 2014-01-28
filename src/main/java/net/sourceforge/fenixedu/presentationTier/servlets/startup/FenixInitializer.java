@@ -20,7 +20,6 @@ import net.sourceforge.fenixedu.dataTransferObject.InfoExecutionPeriod;
 import net.sourceforge.fenixedu.domain.DSpaceFileStorage;
 import net.sourceforge.fenixedu.domain.Instalation;
 import net.sourceforge.fenixedu.domain.Role;
-import net.sourceforge.fenixedu.domain.functionalities.FunctionalityContext;
 import net.sourceforge.fenixedu.domain.organizationalStructure.UnitName;
 import net.sourceforge.fenixedu.domain.organizationalStructure.UnitNamePart;
 import net.sourceforge.fenixedu.domain.person.PersonNamePart;
@@ -286,10 +285,6 @@ public class FenixInitializer implements ServletContextListener {
         public void handle(HttpServletRequest request, ServletResponse response, final Throwable t) throws ServletException,
                 IOException {
             ExceptionInformation exceptionInfo = new ExceptionInformation(request, t);
-            if (FunctionalityContext.getCurrentContext(request) != null) {
-                exceptionInfo.getRequestBean().setRequestContext(
-                        FunctionalityContext.getCurrentContext(request).getSelectedTopLevelContainer());
-            }
 
             if (CoreConfiguration.getConfiguration().developmentMode()) {
                 request.setAttribute("debugExceptionInfo", exceptionInfo);

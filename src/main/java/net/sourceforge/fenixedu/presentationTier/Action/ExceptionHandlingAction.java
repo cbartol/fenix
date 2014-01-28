@@ -13,8 +13,6 @@ import javax.servlet.http.HttpSession;
 
 import net.sourceforge.fenixedu.dataTransferObject.support.SupportRequestBean;
 import net.sourceforge.fenixedu.domain.Person;
-import net.sourceforge.fenixedu.domain.contents.Content;
-import net.sourceforge.fenixedu.domain.functionalities.FunctionalityContext;
 import net.sourceforge.fenixedu.domain.person.RoleType;
 import net.sourceforge.fenixedu.injectionCode.AccessControl;
 import net.sourceforge.fenixedu.presentationTier.Action.ExceptionHandlingAction.ErrorMailForm;
@@ -31,6 +29,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.util.RequestUtils;
 import org.fenixedu.bennu.core.util.CoreConfiguration;
+import org.fenixedu.bennu.portal.domain.MenuFunctionality;
+import org.fenixedu.bennu.portal.domain.MenuItem;
+import org.fenixedu.bennu.portal.servlet.BennuPortalDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -180,7 +181,7 @@ public class ExceptionHandlingAction extends FenixDispatchAction {
         requestBean.setResponseEmail(getLoggedPerson(request).getInstitutionalOrDefaultEmailAddressValue());
         final String parameter = request.getParameter("contextId");
         if (parameter != null && !parameter.isEmpty()) {
-            requestBean.setRequestContext(FenixFramework.<Content> getDomainObject(parameter));
+            requestBean.setSelectedFunctionality(FenixFramework.<MenuFunctionality> getDomainObject(parameter));
         }
 
         request.setAttribute("requestBean", requestBean);
@@ -204,9 +205,10 @@ public class ExceptionHandlingAction extends FenixDispatchAction {
     protected final ActionForward prepareSendEmail(ActionMapping mapping, ActionForm form, HttpServletRequest request,
             HttpServletResponse response, SupportRequestBean requestBean) throws Exception {
 
-        if (requestBean != null && requestBean.getRequestContext() == null) {
-            if (FunctionalityContext.getCurrentContext(request) != null) {
-                requestBean.setRequestContext(FunctionalityContext.getCurrentContext(request).getSelectedTopLevelContainer());
+        if (requestBean != null && requestBean.getSelectedFunctionality() == null) {
+            MenuFunctionality selected = BennuPortalDispatcher.getSelectedFunctionality(request);
+            if (selected != null) {
+                requestBean.setSelectedFunctionality(selected);
             }
         }
 
@@ -271,8 +273,9 @@ public class ExceptionHandlingAction extends FenixDispatchAction {
             StringBuilder builder) {
 
         builder.append(request.getServerName().equals("localhost") ? "Localhost " : "");
-        builder.append("[").append(requestBean.getRequestContext() != null ? requestBean.getRequestContext().getName() : "")
-                .append("] ");
+        builder.append("[")
+                .append(requestBean.getSelectedFunctionality() != null ? requestBean.getSelectedFunctionality().getFullPath()
+                        .get(0).getTitle().getContent() : "").append("] ");
         builder.append("[").append(getRequestTypeAsString(requestBean)).append("] ");
         builder.append("[").append(getRequestPriorityAsString(requestBean)).append("] ");
         builder.append(requestBean.getSubject());
@@ -318,9 +321,21 @@ public class ExceptionHandlingAction extends FenixDispatchAction {
         generateLabel(builder, "Email").append("[").append(requestBean.getResponseEmail()).append("]");
         appendNewLine(builder);
 
-        generateLabel(builder, "Portal").append("[")
-                .append(requestBean.getRequestContext() != null ? requestBean.getRequestContext().getName().getContent() : "")
-                .append("]");
+        generateLabel(builder, "Portal").append("[");
+
+        if (requestBean.getSelectedFunctionality() != null) {
+            boolean first = true;
+            for (MenuItem item : requestBean.getSelectedFunctionality().getFullPath()) {
+                if (first) {
+                    first = false;
+                } else {
+                    builder.append(" > ");
+                }
+                builder.append(item.getTitle().getContent());
+            }
+        }
+
+        builder.append("]");
         appendNewLine(builder);
 
         generateLabel(builder, "Tipo").append("[").append(getRequestTypeAsString(requestBean)).append("]");
