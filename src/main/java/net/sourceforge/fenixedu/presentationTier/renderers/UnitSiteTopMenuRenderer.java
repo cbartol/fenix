@@ -7,7 +7,6 @@ import net.sourceforge.fenixedu.domain.Section;
 import net.sourceforge.fenixedu.domain.Site;
 import net.sourceforge.fenixedu.domain.contents.Content;
 import net.sourceforge.fenixedu.domain.contents.MenuEntry;
-import net.sourceforge.fenixedu.presentationTier.renderers.functionalities.MenuRenderer;
 import net.sourceforge.fenixedu.domain.functionalities.FunctionalityContext;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
@@ -50,7 +49,7 @@ public class UnitSiteTopMenuRenderer extends UnitSiteMenuRenderer {
     protected String getPath(FunctionalityContext context, Content content) {
         List<String> subPaths = new ArrayList<String>();
         subPaths.add(Content.normalize(getTargetSectionName().getContent()));
-        return MenuRenderer.findPathFor(context.getRequest().getContextPath(), content, context, subPaths);
+        return findPathFor(getContext().getViewState().getRequest().getContextPath(), content, context, subPaths);
     }
 
     @Override

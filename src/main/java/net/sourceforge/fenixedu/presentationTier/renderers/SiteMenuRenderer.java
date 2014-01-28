@@ -1,6 +1,5 @@
 package net.sourceforge.fenixedu.presentationTier.renderers;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -15,8 +14,6 @@ import net.sourceforge.fenixedu.domain.contents.Content;
 import net.sourceforge.fenixedu.domain.contents.MenuEntry;
 import net.sourceforge.fenixedu.domain.functionalities.FunctionalityContext;
 import net.sourceforge.fenixedu.domain.messaging.Forum;
-import net.sourceforge.fenixedu.presentationTier.renderers.functionalities.MenuRenderer;
-import net.sourceforge.fenixedu.domain.functionalities.FunctionalityContext;
 import pt.ist.fenixWebFramework.renderers.OutputRenderer;
 import pt.ist.fenixWebFramework.renderers.components.Face;
 import pt.ist.fenixWebFramework.renderers.components.HtmlComponent;
@@ -170,12 +167,7 @@ public class SiteMenuRenderer extends OutputRenderer {
 
                 HtmlList list = new HtmlList();
                 HttpServletRequest request = getContext().getViewState().getRequest();
-                FunctionalityContext context =
-                        (FunctionalityContext) request.getAttribute(FunctionalityContext.CONTEXT_KEY);
-
-                if (context == null) {
-                    context = new FunctionalityContext(request, Charset.defaultCharset().name());
-                }
+                FunctionalityContext context = FunctionalityContext.getCurrentContext(request);
 
                 Collection<MenuEntry> entries = getEntries(object);
 
@@ -261,7 +253,7 @@ public class SiteMenuRenderer extends OutputRenderer {
             }
 
             private boolean isSelectedContent(Content current, FunctionalityContext context) {
-                FunctionalityContext filterContext = (FunctionalityContext) context;
+                FunctionalityContext filterContext = context;
                 Container selectedContainer = filterContext.getSelectedContainer();
                 return !filterContext.getPathBetween(selectedContainer, current).isEmpty();
             }
@@ -289,7 +281,7 @@ public class SiteMenuRenderer extends OutputRenderer {
     }
 
     protected String getPath(FunctionalityContext context, Content content) {
-        return MenuRenderer.findPathFor(context.getRequest().getContextPath(), content, context,
+        return findPathFor(getContext().getViewState().getRequest().getContextPath(), content, context,
                 subPath(context.getSelectedContainer(), content));
     }
 
@@ -307,4 +299,18 @@ public class SiteMenuRenderer extends OutputRenderer {
         }
         return subPaths;
     }
+
+    protected static String findPathFor(final String contextPath, final Content targetContent,
+            final FunctionalityContext context, final Collection<String> subPath) {
+        final StringBuilder buffer = new StringBuilder(contextPath);
+        buffer.append(context.getSelectedContainerPath());
+        for (final String name : subPath) {
+            buffer.append('/');
+            buffer.append(name);
+        }
+        buffer.append('/');
+        buffer.append(targetContent.getNormalizedName().getContent());
+        return buffer.toString();
+    }
+
 }

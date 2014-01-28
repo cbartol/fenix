@@ -11,7 +11,6 @@ import net.sourceforge.fenixedu.domain.Site;
 import net.sourceforge.fenixedu.domain.UnitSite;
 import net.sourceforge.fenixedu.domain.contents.Content;
 import net.sourceforge.fenixedu.domain.contents.Node;
-import net.sourceforge.fenixedu.presentationTier.renderers.functionalities.MenuRenderer;
 import net.sourceforge.fenixedu.domain.functionalities.FunctionalityContext;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
@@ -85,7 +84,7 @@ public class UnitSiteSideMenuRenderer extends UnitSiteMenuRenderer {
                 subPaths.add(contentPath.getNormalizedName().getContent());
             }
         }
-        return MenuRenderer.findPathFor(context.getRequest().getContextPath(), content, context,
+        return findPathFor(getContext().getViewState().getRequest().getContextPath(), content, context,
                 isTemplatedContent((Site) context.getSelectedContainer(), content) ? Collections.EMPTY_LIST : subPaths);
     }
 
