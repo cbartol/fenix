@@ -243,7 +243,6 @@ public class Installer {
         //new CreateEvaluations().doIt();
 
         createEmptyDegreeAndEmptyDegreeCurricularPlan();
-        CreateFunctionallityTree.doIt();
         Instalation inst = new Instalation();
         inst.setInstalationDomain(process.instalationDomain);
         inst.setInstalationName(process.instalationName);
@@ -422,7 +421,9 @@ public class Installer {
             partyContact.getPartyContactValidation().setState(PartyContactValidationState.VALID);
         }
         Authenticate.mock(user);
-        PersistentAcademicAuthorizationGroup group = new PersistentAcademicAuthorizationGroup(AcademicOperationType.MANAGE_AUTHORIZATIONS, new HashSet<AcademicProgram>(), new HashSet<AdministrativeOffice>());
+        PersistentAcademicAuthorizationGroup group =
+                new PersistentAcademicAuthorizationGroup(AcademicOperationType.MANAGE_AUTHORIZATIONS,
+                        new HashSet<AcademicProgram>(), new HashSet<AdministrativeOffice>());
         group.addMember(person);
     }
 
