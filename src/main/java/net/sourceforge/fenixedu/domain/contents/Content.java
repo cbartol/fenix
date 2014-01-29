@@ -220,15 +220,6 @@ public abstract class Content extends Content_Base {
         setRootDomainObject(null);
     }
 
-    /**
-     * Finalizes the state of this content, that is, does the last finalization
-     * after being disconnected but before being marked for deleting from the
-     * persistent storage.
-     */
-    protected void deleteSelf() {
-        // do nothing
-    }
-
     // This method is to determine if the content is publicly available in the
     // contents' structure,
     // i.e., whether it should be subjected to checksum verification.
