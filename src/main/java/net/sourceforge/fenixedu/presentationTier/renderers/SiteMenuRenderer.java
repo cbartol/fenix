@@ -13,7 +13,6 @@ import net.sourceforge.fenixedu.domain.contents.Container;
 import net.sourceforge.fenixedu.domain.contents.Content;
 import net.sourceforge.fenixedu.domain.contents.MenuEntry;
 import net.sourceforge.fenixedu.domain.functionalities.FunctionalityContext;
-import net.sourceforge.fenixedu.domain.messaging.Forum;
 import pt.ist.fenixWebFramework.renderers.OutputRenderer;
 import pt.ist.fenixWebFramework.renderers.components.Face;
 import pt.ist.fenixWebFramework.renderers.components.HtmlComponent;
@@ -186,7 +185,7 @@ public class SiteMenuRenderer extends OutputRenderer {
                     }
 
                     Content content = entry.getReferingContent();
-                    if (!(content instanceof Item || content instanceof Forum || content instanceof Attachment)) {
+                    if (!(content instanceof Item || content instanceof Attachment)) {
                         HtmlListItem item = list.createItem();
                         item.addChild(generateComponent(context, content, true, depth));
                         if (depth > 0) {

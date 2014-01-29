@@ -36,7 +36,6 @@ import net.sourceforge.fenixedu.domain.contents.Content;
 import net.sourceforge.fenixedu.domain.contents.Node;
 import net.sourceforge.fenixedu.domain.exceptions.DomainException;
 import net.sourceforge.fenixedu.domain.functionalities.Functionality;
-import net.sourceforge.fenixedu.domain.messaging.Forum;
 import net.sourceforge.fenixedu.presentationTier.Action.base.FenixDispatchAction;
 import net.sourceforge.fenixedu.presentationTier.Action.exceptions.FenixActionException;
 import net.sourceforge.fenixedu.presentationTier.Action.person.ModifiedContentBean;
@@ -601,7 +600,7 @@ public abstract class SiteManagementDA extends FenixDispatchAction {
         List<Content> flatContent = new ArrayList<Content>();
         for (Content content : contents) {
             if (!shouldBeIgnored(content, ignoreClasses)) {
-                if (content instanceof Container && !(content instanceof Forum)) {
+                if (content instanceof Container) {
                     flatContent.add(content);
                     flatContent.addAll(flatten(((Container) content).getDirectChildrenAsContent(), ignoreClasses));
                 } else {

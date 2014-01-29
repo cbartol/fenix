@@ -1,6 +1,5 @@
 package net.sourceforge.fenixedu.domain;
 
-import java.util.Collection;
 import java.util.Formatter;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import net.sourceforge.fenixedu.domain.accessControl.ExecutionCourseTeachersGrou
 import net.sourceforge.fenixedu.domain.contents.Attachment;
 import net.sourceforge.fenixedu.domain.contents.Content;
 import net.sourceforge.fenixedu.domain.contents.Node;
-import net.sourceforge.fenixedu.domain.exceptions.DomainException;
 import net.sourceforge.fenixedu.domain.messaging.ExecutionCourseForum;
 import net.sourceforge.fenixedu.injectionCode.IGroup;
 import net.sourceforge.fenixedu.util.BundleUtil;
@@ -31,9 +29,9 @@ public class ExecutionCourseSite extends ExecutionCourseSite_Base {
     public ExecutionCourseSite(ExecutionCourse course) {
         this();
 
+        course.addForum(new ExecutionCourseForum(new MultiLanguageString().with(Language.pt, course.getNome().replace('?', ' ')
+                .replace('/', ' ')), new MultiLanguageString("")));
         setSiteExecutionCourse(course);
-        createForum(new MultiLanguageString().with(Language.pt, course.getNome().replace('?', ' ').replace('/', ' ')),
-                new MultiLanguageString(""));
     }
 
     public void edit(final String initialStatement, final String introduction, final String mail, final String alternativeSite) {
@@ -113,47 +111,6 @@ public class ExecutionCourseSite extends ExecutionCourseSite_Base {
     @Deprecated
     public ExecutionCourse getExecutionCourse() {
         return super.getSiteExecutionCourse();
-    }
-
-    public Collection<ExecutionCourseForum> getForuns() {
-        return getChildren(ExecutionCourseForum.class);
-    }
-
-    public void addForum(ExecutionCourseForum executionCourseForum) {
-        checkIfCanAddForum(executionCourseForum.getNormalizedName());
-        addChild(executionCourseForum);
-    }
-
-    public void removeForum(ExecutionCourseForum executionCourseForum) {
-        removeChild(executionCourseForum);
-    }
-
-    public void checkIfCanAddForum(MultiLanguageString name) {
-        if (hasForumWithName(name)) {
-            throw new DomainException("executionCourse.already.existing.forum");
-        }
-    }
-
-    public boolean hasForumWithName(MultiLanguageString name) {
-        return getForumByName(name) != null;
-    }
-
-    public ExecutionCourseForum getForumByName(MultiLanguageString name) {
-        for (final ExecutionCourseForum executionCourseForum : getForuns()) {
-            if (executionCourseForum.getNormalizedName().equalInAnyLanguage(name)) {
-                return executionCourseForum;
-            }
-        }
-
-        return null;
-    }
-
-    public void createForum(MultiLanguageString name, MultiLanguageString description) {
-
-        if (hasForumWithName(name)) {
-            throw new DomainException("executionCourse.already.existing.forum");
-        }
-        addForum(new ExecutionCourseForum(name, description));
     }
 
     @Override

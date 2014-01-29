@@ -6407,13 +6407,20 @@ class elections.DelegateElectionVotingPeriod extends elections.DelegateElectionP
         }
     
         
-    class messaging.ConversationMessage extends contents.Element {
+    class messaging.ConversationMessage {
+        DateTime creationDate;
+        MultiLanguageString body;
     }
 
-    class messaging.ConversationThread extends contents.Container {
+    class messaging.ConversationThread {
+        DateTime creationDate;
+        MultiLanguageString title;
     }
 
-    class messaging.Forum extends contents.Container {
+    class messaging.Forum {
+        DateTime creationDate;
+        MultiLanguageString name;
+        MultiLanguageString description;
     }
 
     class messaging.ForumSubscription  {
@@ -11860,6 +11867,18 @@ relation FileTagging {
     }
 }
 
+relation ExecutionCourseForumCourse {
+    messaging.ExecutionCourseForum playsRole forum {
+        multiplicity *;
+    }
+    ExecutionCourse playsRole executionCourse;
+}
+
+relation DepartmentForumDepartment {
+    messaging.DepartmentForum playsRole forum;
+    Department playsRole department;
+}
+
 relation ForumSubscriptionForum {
     messaging.ForumSubscription playsRole forumSubscriptions {
         multiplicity *;
@@ -11872,6 +11891,41 @@ relation ForumSubscriptionPerson {
         multiplicity *;
     }
     Person playsRole person;
+}
+
+relation ForumConversationThreads {
+    public messaging.Forum playsRole forum;
+    public messaging.ConversationThread playsRole conversationThread {
+        multiplicity *;
+    }
+}
+
+relation ConversationThreadHasMessages {
+    public messaging.ConversationThread playsRole conversationThread;
+    public messaging.ConversationMessage playsRole message {
+        multiplicity *;
+    }
+}
+
+relation ConversationMessageCreator {
+    public Person playsRole creator;
+    public messaging.ConversationMessage playsRole conversationMessage {
+        multiplicity *;
+    }
+}
+
+relation ConversationThreadCreator {
+    public Person playsRole creator;
+    public messaging.ConversationThread playsRole conversationThread {
+        multiplicity *;
+    }
+}
+
+relation ForumCreator {
+    public Person playsRole creator;
+    public messaging.Forum playsRole forum {
+        multiplicity *;
+    }
 }
 
 relation FunctionParentInherentFunction {
