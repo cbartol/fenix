@@ -19,9 +19,9 @@ public abstract class PartyAnnouncementBoard extends PartyAnnouncementBoard_Base
     }
 
     @Override
-    protected void disconnect() {
+    public void delete() {
         setParty(null);
-        super.disconnect();
+        super.delete();
     }
 
     @Deprecated

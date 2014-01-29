@@ -1,11 +1,12 @@
 package net.sourceforge.fenixedu.domain.messaging;
 
+import net.sourceforge.fenixedu.domain.contents.Container;
 import net.sourceforge.fenixedu.domain.contents.Content;
 import net.sourceforge.fenixedu.domain.contents.Node;
 
 public class AnnouncementNode extends AnnouncementNode_Base {
 
-    public AnnouncementNode(final AnnouncementBoard announcementBoard, final Content child) {
+    public AnnouncementNode(final Container announcementBoard, final Content child) {
         super();
         init(announcementBoard, child, Boolean.TRUE);
     }

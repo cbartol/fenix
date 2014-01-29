@@ -6311,9 +6311,10 @@ class elections.DelegateElectionVotingPeriod extends elections.DelegateElectionP
         class contents.Attachment extends contents.Element {
 }
 
-            class messaging.Announcement extends contents.Element {
+            class messaging.Announcement {
                 String author;
                 String authorEmail;
+                MultiLanguageString body;
                 MultiLanguageString excerpt;
                 MultiLanguageString keywords;
                 DateTime lastModification;
@@ -6331,6 +6332,7 @@ class elections.DelegateElectionVotingPeriod extends elections.DelegateElectionP
                 Boolean sticky;
                 Integer priority;
                 Boolean publication;
+                DateTime creationDate;
     }
 
             class functionalities.Functionality extends contents.Element {
@@ -6366,7 +6368,9 @@ class elections.DelegateElectionVotingPeriod extends elections.DelegateElectionP
                 Boolean visible;
             }
 
-                class messaging.AnnouncementBoard extends contents.Container {
+                class messaging.AnnouncementBoard {
+                    DateTime creationDate;
+                    MultiLanguageString name;
                     Group managers;
                     Boolean mandatory;
                     Group readers;
@@ -18807,6 +18811,34 @@ relation AnnouncementCategoryAnnouncement {
 relation AnnouncementCampus {
     space.Campus playsRole campus;
     messaging.Announcement playsRole announcements {
+        multiplicity *;
+    }
+}
+
+relation AnnouncementCreator {
+    Person playsRole creator;
+    messaging.Announcement playsRole createAnnouncements {
+        multiplicity *;
+    }
+}
+
+relation AnnouncementBoardAnnouncement {
+    messaging.AnnouncementBoard playsRole announcementBoard;
+    messaging.Announcement playsRole announcement {
+        multiplicity *;
+    }
+}
+
+relation AnnnouncementBoardFileContent {
+    messaging.AnnouncementBoard playsRole announcementBoard;
+    FileContent playsRole fileContent {
+        multiplicity *;
+    }
+}
+
+relation AnnouncementBoardBennu {
+    .org.fenixedu.bennu.core.domain.Bennu playsRole bennu;
+    messaging.AnnouncementBoard playsRole announcementBoard {
         multiplicity *;
     }
 }

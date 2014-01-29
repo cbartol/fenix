@@ -186,10 +186,9 @@ public class MergeExecutionCourses {
             executionCourseAnnouncementBoardTo.addBookmarkOwner(bookmarkOwner);
         }
 
-        for (final Announcement announcement : executionCourseAnnouncementBoardFrom.getAnnouncements()) {
-            executionCourseAnnouncementBoardTo.addAnnouncements(announcement);
+        for (final Announcement announcement : executionCourseAnnouncementBoardFrom.getAnnouncementSet()) {
+            executionCourseAnnouncementBoardTo.addAnnouncement(announcement);
         }
-        executionCourseAnnouncementBoardTo.getChildrenSet().addAll(executionCourseAnnouncementBoardFrom.getChildrenSet());
 
         executionCourseAnnouncementBoardFrom.delete();
     }

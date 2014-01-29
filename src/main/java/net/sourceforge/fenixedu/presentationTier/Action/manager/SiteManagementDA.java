@@ -140,7 +140,7 @@ public abstract class SiteManagementDA extends FenixDispatchAction {
         Container container = getSelectContainer(request);
         Site site = getSite(request);
 
-        FileContentCreationBean bean = new FileContentCreationBean(container, site);
+        FileContentCreationBean bean = null; // new FileContentCreationBean(container, site);
 
         if (!site.isFileClassificationSupported()) {
             bean.setEducationalLearningResourceType(EducationalResourceType.SITE_CONTENT);
@@ -368,7 +368,7 @@ public abstract class SiteManagementDA extends FenixDispatchAction {
         FileContentCreationBean bean = (FileContentCreationBean) viewState.getMetaObject().getObject();
         RenderUtils.invalidateViewState();
 
-        Container container = bean.getFileHolder();
+        Container container = null; // bean.getFileHolder();
         if (container instanceof Item) {
             selectItem(request);
         } else {

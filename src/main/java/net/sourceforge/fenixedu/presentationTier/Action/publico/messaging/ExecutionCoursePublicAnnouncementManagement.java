@@ -14,11 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sourceforge.fenixedu.domain.ExecutionCourse;
 import net.sourceforge.fenixedu.domain.ExecutionCourseSite;
+import net.sourceforge.fenixedu.domain.functionalities.FunctionalityContext;
 import net.sourceforge.fenixedu.domain.messaging.Announcement;
 import net.sourceforge.fenixedu.domain.messaging.AnnouncementBoard;
 import net.sourceforge.fenixedu.presentationTier.Action.exceptions.NotAuthorizedActionException;
 import net.sourceforge.fenixedu.presentationTier.Action.messaging.announcements.dto.AnnouncementArchive;
-import net.sourceforge.fenixedu.domain.functionalities.FunctionalityContext;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -76,7 +76,7 @@ public class ExecutionCoursePublicAnnouncementManagement extends PublicAnnouncem
         if (useArchive) {
             return super.getThisMonthAnnouncements(board, request);
         } else {
-            List<Announcement> announcements = new ArrayList<Announcement>(board.getAnnouncements());
+            List<Announcement> announcements = new ArrayList<Announcement>(board.getAnnouncementSet());
             Collections.sort(announcements, Announcement.NEWEST_FIRST);
 
             return announcements;

@@ -170,7 +170,7 @@ public class UnitAnnouncementBoardsManagement extends AnnouncementManagement {
 
         request.setAttribute("unit", board.getParty());
         request.setAttribute("announcementBoard", board);
-        request.setAttribute("announcements", board.getAnnouncements());
+        request.setAttribute("announcements", board.getAnnouncementSet());
         return mapping.findForward("editAnnouncementBoard");
     }
 

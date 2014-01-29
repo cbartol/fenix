@@ -39,7 +39,7 @@ public class Attachment extends Attachment_Base {
 
     @Override
     public boolean isParentAccepted(Container parent) {
-        return parent instanceof Item || parent instanceof Section || parent instanceof AnnouncementBoard;
+        return parent instanceof Item || parent instanceof Section;
     }
 
     private Section getSection() {
@@ -52,18 +52,8 @@ public class Attachment extends Attachment_Base {
         if (section != null) {
             return section.getSite();
         }
-        final AnnouncementBoard announcementBoard = getAnnouncementBoard();
+        final AnnouncementBoard announcementBoard = getFile().getAnnouncementBoard();
         return announcementBoard == null ? null : announcementBoard.getSite();
-    }
-
-    private AnnouncementBoard getAnnouncementBoard() {
-        for (final Node node : getParentsSet()) {
-            final Container parent = node.getParent();
-            if (parent instanceof AnnouncementBoard) {
-                return (AnnouncementBoard) parent;
-            }
-        }
-        return null;
     }
 
     @Override

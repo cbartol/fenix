@@ -2,6 +2,7 @@ package net.sourceforge.fenixedu.domain.messaging;
 
 import java.util.Comparator;
 
+import net.sourceforge.fenixedu.domain.Site;
 import net.sourceforge.fenixedu.domain.organizationalStructure.Party;
 import net.sourceforge.fenixedu.domain.organizationalStructure.Unit;
 
@@ -46,6 +47,11 @@ public class UnitAnnouncementBoard extends UnitAnnouncementBoard_Base {
 
     public Unit getUnit() {
         return getParty();
+    }
+
+    @Override
+    public Site getSite() {
+        return getParty().getSite();
     }
 
     @Override
