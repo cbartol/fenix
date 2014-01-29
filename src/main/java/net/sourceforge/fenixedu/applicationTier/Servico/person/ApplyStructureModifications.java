@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.sourceforge.fenixedu.applicationTier.ServiceMonitoring;
 import net.sourceforge.fenixedu.domain.contents.Container;
-import net.sourceforge.fenixedu.domain.contents.DateOrderedNode;
 import net.sourceforge.fenixedu.domain.contents.ExplicitOrderNode;
 import net.sourceforge.fenixedu.domain.contents.Node;
 import net.sourceforge.fenixedu.presentationTier.Action.person.ModifiedContentBean;
@@ -42,11 +41,6 @@ public class ApplyStructureModifications {
                     new ExplicitOrderNode(parent, oldNode.getChild(), oldNode.isAscending(), oldNode.getNodeOrder());
             oldNode.deleteWithoutReOrdering();
             return explicitOrderNode;
-        } else if (node instanceof DateOrderedNode) {
-            DateOrderedNode oldNode = (DateOrderedNode) node;
-            DateOrderedNode dateOrderedNode = new DateOrderedNode(parent, oldNode.getChild(), oldNode.getAscending());
-            oldNode.delete();
-            return dateOrderedNode;
         }
         return null;
     }

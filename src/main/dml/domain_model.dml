@@ -6400,16 +6400,9 @@ class elections.DelegateElectionVotingPeriod extends elections.DelegateElectionP
         String contentId;
     }
 
-        class contents.DateOrderedNode extends contents.Node {
-        }
-
         class contents.ExplicitOrderNode extends contents.Node {
             Integer nodeOrder;
         }
-        
-        class messaging.AnnouncementNode extends contents.Node {
-        }
-    
         
     class messaging.ConversationMessage {
         DateTime creationDate;
