@@ -1,12 +1,8 @@
 package net.sourceforge.fenixedu.domain.contents;
 
-import net.sourceforge.fenixedu.domain.Site;
-
 import org.fenixedu.bennu.core.domain.Bennu;
 
-import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.DomainObject;
-import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
 
 public class Portal extends Portal_Base {
 
@@ -42,11 +38,6 @@ public class Portal extends Portal_Base {
     protected void disconnect() {
         setPortalRootDomainObject(null);
         super.disconnect();
-    }
-
-    @Atomic
-    public void addContentJump(Site site, MultiLanguageString jumpName) {
-        this.addChild(new ContentJump(jumpName, site));
     }
 
 }

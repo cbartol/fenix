@@ -59,11 +59,9 @@ public abstract class Site extends Site_Base {
 
     @Override
     public void appendReversePathPart(final StringBuilder stringBuilder) {
-        if (getJumpPoint() == null) {
-            final String name = getNormalizedName().getContent();
-            stringBuilder.append("/");
-            stringBuilder.append(name);
-        }
+        final String name = getNormalizedName().getContent();
+        stringBuilder.append("/");
+        stringBuilder.append(name);
     }
 
     public List<Section> getAllAssociatedSections() {
@@ -317,7 +315,7 @@ public abstract class Site extends Site_Base {
 
     @Override
     protected Container findSomeNonModuleParent() {
-        return getJumpPoint() != null ? getJumpPoint() : getTemplate();
+        return getTemplate();
     }
 
     @Override
@@ -386,11 +384,6 @@ public abstract class Site extends Site_Base {
     @Deprecated
     public boolean hasAlternativeSite() {
         return getAlternativeSite() != null;
-    }
-
-    @Deprecated
-    public boolean hasJumpPoint() {
-        return getJumpPoint() != null;
     }
 
 }

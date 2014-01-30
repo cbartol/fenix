@@ -6358,9 +6358,6 @@ class elections.DelegateElectionVotingPeriod extends elections.DelegateElectionP
                 String type;
             }
 
-            class contents.ContentJump extends contents.Portal {
-            }
-            
             class functionalities.Module extends contents.Container {
                 //Boolean maximized;
                 //String prefix;
@@ -16223,11 +16220,6 @@ relation SibsPaymentFileEntrySibsPaymentFile {
         multiplicity *;
     }
     gratuity.masterDegree.SibsPaymentFile playsRole sibsPaymentFile;
-}
-
-relation ContentJumpSite {
-    contents.ContentJump playsRole jumpPoint;
-    Site playsRole jumpTo;
 }
 
 /*

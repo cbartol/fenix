@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
 
 import net.sourceforge.fenixedu.domain.Item;
 import net.sourceforge.fenixedu.domain.Section;
-import net.sourceforge.fenixedu.domain.Site;
 import net.sourceforge.fenixedu.domain.accessControl.EveryoneGroup;
 import net.sourceforge.fenixedu.domain.accessControl.Group;
 import net.sourceforge.fenixedu.domain.accessControl.groups.language.ExpressionGroup;
@@ -365,9 +364,6 @@ public abstract class Content extends Content_Base {
     protected Container findSomeNonModuleParent() {
         for (final Node node : getParentsSet()) {
             final Container container = node.getParent();
-            if (container instanceof Site && ((Site) container).getJumpPoint() != null) {
-                return ((Site) container).getJumpPoint();
-            }
             if (!(container instanceof Module)) {
                 return container;
             }
