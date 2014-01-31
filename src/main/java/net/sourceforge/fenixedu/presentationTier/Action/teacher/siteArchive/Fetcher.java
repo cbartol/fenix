@@ -147,7 +147,7 @@ public class Fetcher {
             writeFileToStream(url, stream);
         } else {
             RequestDispatcher dispatcher = this.request.getRequestDispatcher(url);
-            ServletRequest request = this.requestContext == null ? createForwardRequest() : createForwardRequest(requestContext);
+            ServletRequest request = createForwardRequest();
             FetcherServletResponseWrapper response = createForwardResponse(resource, stream);
             dispatcher.forward(request, response);
         }
