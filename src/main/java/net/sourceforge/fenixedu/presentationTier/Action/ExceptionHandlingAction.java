@@ -274,7 +274,7 @@ public class ExceptionHandlingAction extends FenixDispatchAction {
 
         builder.append(request.getServerName().equals("localhost") ? "Localhost " : "");
         builder.append("[")
-                .append(requestBean.getSelectedFunctionality() != null ? requestBean.getSelectedFunctionality().getFullPath()
+                .append(requestBean.getSelectedFunctionality() != null ? requestBean.getSelectedFunctionality().getPathFromRoot()
                         .get(0).getTitle().getContent() : "").append("] ");
         builder.append("[").append(getRequestTypeAsString(requestBean)).append("] ");
         builder.append("[").append(getRequestPriorityAsString(requestBean)).append("] ");
@@ -325,7 +325,7 @@ public class ExceptionHandlingAction extends FenixDispatchAction {
 
         if (requestBean.getSelectedFunctionality() != null) {
             boolean first = true;
-            for (MenuItem item : requestBean.getSelectedFunctionality().getFullPath()) {
+            for (MenuItem item : requestBean.getSelectedFunctionality().getPathFromRoot()) {
                 if (first) {
                     first = false;
                 } else {

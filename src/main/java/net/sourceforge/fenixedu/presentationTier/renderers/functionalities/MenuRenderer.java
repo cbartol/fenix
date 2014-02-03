@@ -87,7 +87,7 @@ public class MenuRenderer extends OutputRenderer {
                         entryPoint.getParent() == null ? Collections.<MenuItem> singleton(entryPoint) : entryPoint.getParent()
                                 .getOrderedChild();
 
-                addMenuEntries(selectedFunctionality.getFullPath(), menu, containers);
+                addMenuEntries(selectedFunctionality.getPathFromRoot(), menu, containers);
 
                 return menu;
             }
@@ -137,7 +137,7 @@ public class MenuRenderer extends OutputRenderer {
             link.setContextRelative(true);
             link.setModuleRelative(false);
 
-            link.setUrl(entry.getPathFromRoot());
+            link.setUrl(entry.getFullPath());
             link.setBody(component);
 
             component = link;

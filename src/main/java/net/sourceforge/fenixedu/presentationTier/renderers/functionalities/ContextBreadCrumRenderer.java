@@ -46,7 +46,7 @@ public class ContextBreadCrumRenderer extends OutputRenderer {
 
                 HtmlInlineContainer inlineContainer = new HtmlInlineContainer();
 
-                List<MenuItem> contents = context.getFullPath();
+                List<MenuItem> contents = context.getPathFromRoot();
 
                 Iterator<MenuItem> contentIterator = contents.iterator();
                 while (contentIterator.hasNext()) {
@@ -72,7 +72,7 @@ public class ContextBreadCrumRenderer extends OutputRenderer {
                     container.addChild(component);
                     link.setContextRelative(true);
                     link.setModuleRelative(false);
-                    link.setUrl(menuItem.getPathFromRoot());
+                    link.setUrl(menuItem.getFullPath());
                     link.setBody(container);
 
                     component = link;

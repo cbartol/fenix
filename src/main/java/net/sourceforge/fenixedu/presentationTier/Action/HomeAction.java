@@ -25,7 +25,7 @@ public class HomeAction extends Action {
         if (initialMenuEntry == null) {
             response.sendRedirect(FenixConfigurationManager.getConfiguration().getLoginPage());
         } else {
-            response.sendRedirect(request.getContextPath() + initialMenuEntry.getPathFromRoot());
+            response.sendRedirect(request.getContextPath() + initialMenuEntry.getFullPath());
         }
 
         return null;
