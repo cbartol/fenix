@@ -77,11 +77,6 @@ public class ExecutionCourseSite extends ExecutionCourseSite_Base {
 
     }
 
-    @Override
-    public ExecutionSemester getExecutionPeriod() {
-        return getSiteExecutionCourse().getExecutionPeriod();
-    }
-
     public static ExecutionCourseSite readExecutionCourseSiteByOID(String oid) {
         Site site = (Site) FenixFramework.getDomainObject(oid);
         if (site == null) {

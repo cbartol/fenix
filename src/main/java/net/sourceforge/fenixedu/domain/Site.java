@@ -5,11 +5,7 @@
 package net.sourceforge.fenixedu.domain;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -41,29 +37,12 @@ public abstract class Site extends Site_Base {
 
     public abstract IGroup getOwner();
 
-    public List<Section> getTopLevelSections() {
-        return getAssociatedSections();
-    }
-
-    public List<Section> getAllAssociatedSections() {
-        List<Section> sections = new ArrayList<Section>();
-        for (Section section : getTopLevelSections()) {
-            sections.add(section);
-            sections.addAll(section.getSubSections());
-        }
-        return sections;
-    }
-
     public SortedSet<Section> getOrderedTopLevelSections() {
         final SortedSet<Section> sections = new TreeSet<Section>(Section.COMPARATOR_BY_ORDER);
         for (final Section section : getAssociatedSections()) {
             sections.add(section);
         }
         return sections;
-    }
-
-    public int getNumberOfTopLevelSections() {
-        return getAssociatedSections().size();
     }
 
     public void copySectionsAndItemsFrom(Site siteFrom) {
@@ -86,21 +65,6 @@ public abstract class Site extends Site_Base {
         groups.add(new InternalPersonGroup());
 
         return groups;
-    }
-
-    public void setTopLevelSectionsOrder(List<Section> sections) {
-        // SECTION_ORDER_ADAPTER.updateOrder(this, sections);
-    }
-
-    public ExecutionSemester getExecutionPeriod() {
-        return null;
-    }
-
-    public static List<Section> getOrderedSections(Collection<Section> sections) {
-        List<Section> orderedSections = new ArrayList<Section>(sections);
-        Collections.sort(orderedSections, Section.COMPARATOR_BY_ORDER);
-
-        return orderedSections;
     }
 
     /**
@@ -148,23 +112,8 @@ public abstract class Site extends Site_Base {
         return false;
     }
 
-    public boolean hasAnyAssociatedSections() {
-        return !getAssociatedSections().isEmpty();
-    }
-
     public List<Section> getAssociatedSections() {
         throw new UnsupportedOperationException("Not implemented");
-    }
-
-    public Set<Section> getAssociatedSectionsSet() {
-        Set<Section> sections = new HashSet<Section>();
-        sections.addAll(getAssociatedSections());
-        return sections;
-
-    }
-
-    public int getAssociatedSectionsCount() {
-        return getAssociatedSections().size();
     }
 
     public Section addAssociatedSections(MultiLanguageString sectionName) {
@@ -181,14 +130,6 @@ public abstract class Site extends Site_Base {
 
     public boolean isDeletable() {
         throw new UnsupportedOperationException("");
-    }
-
-    public boolean isAvailable() {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    public boolean isPublic() {
-        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     public String getReversePath() {
