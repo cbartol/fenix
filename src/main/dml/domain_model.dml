@@ -3207,18 +3207,6 @@ valueType net.sourceforge.fenixedu.domain.accounting.events.export.PrintedPaymen
         HourMinuteSecond startOfProposalPeriodTimeHourMinuteSecond;
     }
 
-    class functionalities.AvailabilityPolicy  {
-        String contentId;
-    }
-
-        class functionalities.GroupAvailability extends functionalities.AvailabilityPolicy {
-            Group targetGroup;
-        }
-
-            class functionalities.ExpressionGroupAvailability extends functionalities.GroupAvailability {
-                String expression;
-            }
-
     class gaugingTests.physics.GaugingTestResult  {
         String cfString;
         Integer correct;
@@ -6295,22 +6283,6 @@ class elections.DelegateElectionCandidacyPeriod extends elections.DelegateElecti
 class elections.DelegateElectionVotingPeriod extends elections.DelegateElectionPeriod {
 }
 
-    class contents.Content  {
-        String contentId;
-        DateTime creationDate;
-        MultiLanguageString name;
-        MultiLanguageString title;
-        MultiLanguageString body;
-        MultiLanguageString description;
-        MultiLanguageString normalizedName;
-    }
-
-        class contents.Element extends contents.Content {
-	    }
-
-        class contents.Attachment extends contents.Element {
-}
-
             class messaging.Announcement {
                 String author;
                 String authorEmail;
@@ -6334,37 +6306,7 @@ class elections.DelegateElectionVotingPeriod extends elections.DelegateElectionP
                 Boolean publication;
                 DateTime creationDate;
     }
-
-            class functionalities.Functionality extends contents.Element {
-                //MultiLanguageString description;
-                //Integer orderInModule;
-                //String parameters;
-                //UUID uuid; // TODO: replace uuid by relative content ids
-                String executionPath;
-                //Boolean principal;
-                //Boolean relative;
-                Boolean visible;
-    }
     
-        class contents.Container extends contents.Content {
-            Boolean maximizable;
-            String prefix;
-    }
-
-            class contents.Portal extends contents.Container {
-            }
-
-            class contents.MetaDomainObjectPortal extends contents.Portal {
-                String type;
-            }
-
-            class functionalities.Module extends contents.Container {
-                //Boolean maximized;
-                //String prefix;
-                String executionPath;
-                Boolean visible;
-            }
-
                 class messaging.AnnouncementBoard {
                     DateTime creationDate;
                     MultiLanguageString name;
@@ -6391,16 +6333,6 @@ class elections.DelegateElectionVotingPeriod extends elections.DelegateElectionP
                         }
 
 
-    class contents.Node  {
-        Boolean ascending;
-        Boolean visible;
-        String contentId;
-    }
-
-        class contents.ExplicitOrderNode extends contents.Node {
-            Integer nodeOrder;
-        }
-        
     class messaging.ConversationMessage {
         DateTime creationDate;
         MultiLanguageString body;
@@ -6427,18 +6359,23 @@ class elections.DelegateElectionVotingPeriod extends elections.DelegateElectionP
         class messaging.DepartmentForum extends messaging.Forum {
         }
 
-    class Item extends contents.Container {
+    class Item {
+        MultiLanguageString name;
+        MultiLanguageString body;
         Boolean enabled;
         Boolean showName;
     }
 
-    class Section extends contents.Container {
+    class Section {
+        DateTime creationDate;
+        MultiLanguageString name;
         Boolean enabled;
         YearMonthDay modificationDate;
         Boolean showSubSections;
     }
 
-    class Site extends contents.Portal {
+    class Site {
+        MultiLanguageString description;
         String alternativeSite;
         String style;
     }
@@ -12320,11 +12257,6 @@ relation InvitationParty {
     }
 }
 
-relation AttachmentFileContent {
-    contents.Attachment playsRole attachment;
-    FileContent playsRole file;
-}
-
 relation JournalIssueArticleAssociation {
     research.activity.JournalIssue playsRole journalIssue;
     research.activity.ArticleAssociation playsRole articleAssociations {
@@ -14777,13 +14709,6 @@ relation RootDomainObjectGuideSituation {
     }
 }
 
-relation RootDomainObjectHasAvailabilityPolicy {
-    .org.fenixedu.bennu.core.domain.Bennu playsRole rootDomainObject;
-    functionalities.AvailabilityPolicy playsRole availabilityPolicy {
-        multiplicity *;
-    }
-}
-
 relation RootDomainObjectHoliday {
     .org.fenixedu.bennu.core.domain.Bennu playsRole rootDomainObject;
     Holiday playsRole holidays {
@@ -16220,6 +16145,13 @@ relation SibsPaymentFileEntrySibsPaymentFile {
         multiplicity *;
     }
     gratuity.masterDegree.SibsPaymentFile playsRole sibsPaymentFile;
+}
+
+relation SiteBennu {
+    .org.fenixedu.bennu.core.domain.Bennu playsRole bennu;
+    Site playsRole site {
+        multiplicity *;
+    }
 }
 
 /*
@@ -17828,78 +17760,6 @@ relation SantanderPhotoEntrySantanderEntry {
 relation PersonSantanderPIN {
 	Person playsRole person;
 	cardGeneration.SantanderPIN playsRole santanderPIN;
-}
-
-relation ContentHasCreator {
-    Person playsRole creator;
-    contents.Content playsRole createdContents {
-        multiplicity *;
-    }
-}
-
-relation ContentHasAvailabilityPolicy {
-    contents.Content playsRole content;
-    functionalities.AvailabilityPolicy playsRole availabilityPolicy;
-}
-
-relation ContentRootDomainObject {
-    .org.fenixedu.bennu.core.domain.Bennu playsRole rootDomainObject;
-    contents.Content playsRole contents {
-        multiplicity *;
-    }
-}
-
-
-relation ContainerNode {
-    contents.Container playsRole parent;
-    contents.Node playsRole children {
-        multiplicity *;
-    }
-}
-
-relation ContentNode {
-    contents.Content playsRole child;
-    contents.Node playsRole parents {
-        multiplicity *;
-    }
-}
-
-relation NodeRootDomainObject {
-    .org.fenixedu.bennu.core.domain.Bennu playsRole rootDomainObject;
-        contents.Node playsRole nodes {
-        multiplicity *;
-    }
-}
-
-relation RootModule {
-    .org.fenixedu.bennu.core.domain.Bennu playsRole moduleRootDomainObject;
-    functionalities.Module playsRole rootModule;
-        }
-
-relation RootPortal {
-    .org.fenixedu.bennu.core.domain.Bennu playsRole portalRootDomainObject;
-    contents.Portal playsRole rootPortal;
-}
-
-relation ContainerPointsContent {
-    contents.Container playsRole initialContainer {
-                multiplicity *;
-        }
-    contents.Content playsRole initialContent;
-}
-
-relation MetaDomainObjectPortalBennu {
-    .org.fenixedu.bennu.core.domain.Bennu playsRole bennu;
-    contents.MetaDomainObjectPortal playsRole metaDomainObjectPortal {
-        multiplicity *;
-    }
-}
-
-relation PortalPool {
-    contents.MetaDomainObjectPortal playsRole portal;
-    contents.Content playsRole pool {
-                multiplicity *;
-        }
 }
 
 relation PersonCardGenerationProblem {

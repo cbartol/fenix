@@ -10,7 +10,6 @@ import net.sourceforge.fenixedu.domain.ExecutionCourse;
 import net.sourceforge.fenixedu.domain.FileContent;
 import net.sourceforge.fenixedu.domain.Item;
 import net.sourceforge.fenixedu.domain.Section;
-import net.sourceforge.fenixedu.domain.contents.Attachment;
 import net.sourceforge.fenixedu.presentationTier.Action.base.FenixDispatchAction;
 import net.sourceforge.fenixedu.presentationTier.Action.teacher.siteArchive.rules.ResourceRule;
 import net.sourceforge.fenixedu.presentationTier.Action.teacher.siteArchive.rules.Rule;
@@ -277,7 +276,7 @@ public class GenerateSiteArchive extends FenixDispatchAction {
             getFilesFromSection(fetcher, resource, section, globalRules, contextPath);
         }
 
-        for (Section subsection : section.getAssociatedSections()) {
+        for (Section subsection : section.getChildrenSections()) {
             addSectionToFetcher(executionCourse, options, fetcher, contextPath, globalRules, subsection);
         }
         fetcher.queue(resource);
@@ -285,9 +284,8 @@ public class GenerateSiteArchive extends FenixDispatchAction {
 
     private void getFilesFromSection(Fetcher fetcher, Resource sectionResource, Section section, List<Rule> globalRules,
             String contextPath) {
-        for (Item item : section.getChildren(Item.class)) {
-            for (Attachment att : item.getChildren(Attachment.class)) {
-                FileContent file = att.getFile();
+        for (Item item : section.getAssociatedItems()) {
+            for (FileContent file : item.getFileSet()) {
                 sectionResource.addRule(new ResourceRule(file.getDownloadUrl(), "files/" + file.getFilename()));
                 sectionResource.addRule(new ResourceRule(file.getFileDownloadPrefix() + file.getExternalId(), "files/"
                         + file.getFilename()));
@@ -296,13 +294,12 @@ public class GenerateSiteArchive extends FenixDispatchAction {
             }
 
         }
-        for (Attachment att : section.getChildren(Attachment.class)) {
-            FileContent file = att.getFile();
-            sectionResource.addRule(new ResourceRule(contextPath + att.getReversePath(), "files/" + file.getFilename()));
+        for (FileContent file : section.getChildrenFiles()) {
+            sectionResource
+                    .addRule(new ResourceRule(contextPath + "" /* att.getReversePath() */, "files/" + file.getFilename()));
             Resource fileResource = new Resource("files/" + file.getFilename(), file.getDownloadUrl());
             fetcher.queue(fileResource);
         }
-
     }
 
     private ArchiveOptions getOptions(HttpServletRequest request) {

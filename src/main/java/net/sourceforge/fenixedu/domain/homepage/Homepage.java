@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import net.sourceforge.fenixedu.domain.Person;
-import net.sourceforge.fenixedu.domain.contents.Content;
+import net.sourceforge.fenixedu.domain.Site;
 import net.sourceforge.fenixedu.injectionCode.IGroup;
 
 import org.fenixedu.bennu.core.domain.Bennu;
@@ -32,8 +32,6 @@ public class Homepage extends Homepage_Base {
 
     public Homepage() {
         super();
-
-        setRootDomainObject(Bennu.getInstance());
 
         setActivated(false);
         setShowUnit(false);
@@ -76,7 +74,7 @@ public class Homepage extends Homepage_Base {
     public static List<Homepage> getAllHomepages() {
         List<Homepage> result = new ArrayList<Homepage>();
 
-        for (Content content : Bennu.getInstance().getContentsSet()) {
+        for (Site content : Bennu.getInstance().getSiteSet()) {
             if (content instanceof Homepage) {
                 result.add((Homepage) content);
             }
@@ -104,9 +102,9 @@ public class Homepage extends Homepage_Base {
     }
 
     @Override
-    protected void disconnect() {
+    public void delete() {
         setPerson(null);
-        super.disconnect();
+        super.delete();
     }
 
     public boolean isHomepageActivated() {
@@ -116,12 +114,6 @@ public class Homepage extends Homepage_Base {
     @Override
     public MultiLanguageString getName() {
         return new MultiLanguageString().with(Language.pt, String.valueOf(getPerson().getIstUsername()));
-    }
-
-    @Override
-    public void setNormalizedName(final MultiLanguageString normalizedName) {
-        // unable to optimize because we cannot track changes to name correctly.
-        // don't call super.setNormalizedName() !
     }
 
     @Deprecated

@@ -72,7 +72,6 @@ import net.sourceforge.fenixedu.domain.contacts.Phone;
 import net.sourceforge.fenixedu.domain.contacts.PhysicalAddress;
 import net.sourceforge.fenixedu.domain.contacts.PhysicalAddressData;
 import net.sourceforge.fenixedu.domain.contacts.WebAddress;
-import net.sourceforge.fenixedu.domain.contents.Content;
 import net.sourceforge.fenixedu.domain.degree.DegreeType;
 import net.sourceforge.fenixedu.domain.documents.AnnualIRSDeclarationDocument;
 import net.sourceforge.fenixedu.domain.documents.GeneratedDocument;
@@ -3783,9 +3782,9 @@ public class Person extends Person_Base {
     }
 
     public boolean isTeacherEvaluationCoordinatorCouncilMember() {
-        final Content content = FenixFramework.getDomainObject("2482491971449");
+        final UnitSite content = FenixFramework.getDomainObject("2482491971449");
         if (content != null) {
-            final UnitSite site = (UnitSite) content;
+            final UnitSite site = content;
             return site.getManagersSet().contains(AccessControl.getPerson());
         }
         return false;
@@ -5149,16 +5148,6 @@ public class Person extends Person_Base {
     @Deprecated
     public boolean hasAnyThesisEvaluationParticipants() {
         return !getThesisEvaluationParticipantsSet().isEmpty();
-    }
-
-    @Deprecated
-    public java.util.Set<net.sourceforge.fenixedu.domain.contents.Content> getCreatedContents() {
-        return getCreatedContentsSet();
-    }
-
-    @Deprecated
-    public boolean hasAnyCreatedContents() {
-        return !getCreatedContentsSet().isEmpty();
     }
 
     @Deprecated

@@ -14,7 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sourceforge.fenixedu.domain.ExecutionCourse;
 import net.sourceforge.fenixedu.domain.ExecutionCourseSite;
-import net.sourceforge.fenixedu.domain.functionalities.FunctionalityContext;
+import net.sourceforge.fenixedu.domain.Site;
+import net.sourceforge.fenixedu.domain.Site.SiteMapper;
 import net.sourceforge.fenixedu.domain.messaging.Announcement;
 import net.sourceforge.fenixedu.domain.messaging.AnnouncementBoard;
 import net.sourceforge.fenixedu.presentationTier.Action.exceptions.NotAuthorizedActionException;
@@ -46,8 +47,7 @@ public class ExecutionCoursePublicAnnouncementManagement extends PublicAnnouncem
         final String executionCourseIDString = request.getParameter("executionCourseID");
 
         if (executionCourseIDString == null) {
-            ExecutionCourseSite site =
-                    (ExecutionCourseSite) FunctionalityContext.getCurrentContext(request).getSelectedContainer();
+            ExecutionCourseSite site = SiteMapper.getSite(request);
             return site.getSiteExecutionCourse().getExternalId();
         }
 

@@ -5,8 +5,6 @@
 package net.sourceforge.fenixedu.applicationTier.Servico.manager;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,7 +21,6 @@ import net.sourceforge.fenixedu.domain.Evaluation;
 import net.sourceforge.fenixedu.domain.ExecutionCourse;
 import net.sourceforge.fenixedu.domain.ExecutionCourseLog;
 import net.sourceforge.fenixedu.domain.ExportGrouping;
-import net.sourceforge.fenixedu.domain.FileContent;
 import net.sourceforge.fenixedu.domain.FinalEvaluation;
 import net.sourceforge.fenixedu.domain.LessonInstance;
 import net.sourceforge.fenixedu.domain.Person;
@@ -31,16 +28,9 @@ import net.sourceforge.fenixedu.domain.Professorship;
 import net.sourceforge.fenixedu.domain.Shift;
 import net.sourceforge.fenixedu.domain.Site;
 import net.sourceforge.fenixedu.domain.Summary;
-import net.sourceforge.fenixedu.domain.accessControl.EveryoneGroup;
 import net.sourceforge.fenixedu.domain.accessControl.Group;
 import net.sourceforge.fenixedu.domain.accessControl.GroupUnion;
 import net.sourceforge.fenixedu.domain.accessControl.PersonGroup;
-import net.sourceforge.fenixedu.domain.contents.Attachment;
-import net.sourceforge.fenixedu.domain.contents.Container;
-import net.sourceforge.fenixedu.domain.contents.Content;
-import net.sourceforge.fenixedu.domain.contents.ExplicitOrderNode;
-import net.sourceforge.fenixedu.domain.contents.Node;
-import net.sourceforge.fenixedu.domain.functionalities.GroupAvailability;
 import net.sourceforge.fenixedu.domain.inquiries.InquiryCourseAnswer;
 import net.sourceforge.fenixedu.domain.inquiries.InquiryResult;
 import net.sourceforge.fenixedu.domain.inquiries.StudentInquiryRegistry;
@@ -56,13 +46,7 @@ import net.sourceforge.fenixedu.domain.onlineTests.DistributedTest;
 import net.sourceforge.fenixedu.domain.onlineTests.Metadata;
 import net.sourceforge.fenixedu.domain.onlineTests.TestScope;
 import net.sourceforge.fenixedu.domain.student.Registration;
-import net.sourceforge.fenixedu.domain.util.email.Message;
-import net.sourceforge.fenixedu.domain.util.email.SystemSender;
 import net.sourceforge.fenixedu.injectionCode.IGroup;
-import net.sourceforge.fenixedu.util.BundleUtil;
-
-import org.fenixedu.bennu.core.domain.Bennu;
-
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.FenixFramework;
 import pt.utl.ist.fenix.tools.util.i18n.MultiLanguageString;
@@ -349,71 +333,66 @@ public class MergeExecutionCourses {
         final Site siteTo = executionCourseTo.getSite();
 
         if (siteFrom != null) {
-            copyContents(executionCourseTo, siteTo, siteFrom.getOrderedDirectChildren());
+            siteTo.copySectionsAndItemsFrom(siteFrom);
+//            copyContents(executionCourseTo, siteTo, siteFrom.getOrderedDirectChildren());
             siteFrom.delete();
         }
     }
 
-    private void copyContents(final ExecutionCourse executionCourseTo, final Container parentTo, final Collection<Node> nodes) {
-        final Set<Content> transferedContents = new HashSet<Content>();
+//    private void copyContents(final ExecutionCourse executionCourseTo, final Container parentTo, final Collection<Node> nodes) {
+//        final Set<Content> transferedContents = new HashSet<Content>();
+//
+//        for (final Node node : nodes) {
+//            final Content content = node.getChild();
+//            final ExplicitOrderNode explicitOrderNode = new ExplicitOrderNode(parentTo, content);
+//            if (node instanceof ExplicitOrderNode) {
+//                explicitOrderNode.setNodeOrder(((ExplicitOrderNode) node).getNodeOrder());
+//            }
+//            explicitOrderNode.setVisible(node.getVisible());
+//            node.delete();
+//
+//            changeGroups(executionCourseTo, content, transferedContents);
+//        }
+//
+//        if (transferedContents.size() > 0) {
+//            final Set<String> bccs = createListOfEmailAddresses(executionCourseTo);
+//            final StringBuilder message = new StringBuilder();
+//            message.append(BundleUtil
+//                    .getStringFromResourceBundle("resources.GlobalResources", "mergeExecutionCourses.email.body"));
+//
+//            for (final Content content : transferedContents) {
+//                message.append("\n\t");
+//                message.append(content.getName());
+//            }
+//
+//            message.append(BundleUtil.getStringFromResourceBundle("resources.GlobalResources",
+//                    "mergeExecutionCourses.email.greetings"));
+//            SystemSender systemSender = Bennu.getInstance().getSystemSender();
+//            new Message(systemSender, systemSender.getConcreteReplyTos(), Collections.EMPTY_LIST,
+//                    BundleUtil.getStringFromResourceBundle("resources.GlobalResources", "mergeExecutionCourses.email.subject",
+//                            new String[] { executionCourseTo.getNome() }), message.toString(), bccs);
+//        }
+//    }
 
-        for (final Node node : nodes) {
-            final Content content = node.getChild();
-            final ExplicitOrderNode explicitOrderNode = new ExplicitOrderNode(parentTo, content);
-            if (node instanceof ExplicitOrderNode) {
-                explicitOrderNode.setNodeOrder(((ExplicitOrderNode) node).getNodeOrder());
-            }
-            explicitOrderNode.setVisible(node.getVisible());
-            node.delete();
+//    private void changeGroups(final ExecutionCourse executionCourseTo, final Content content,
+//            final Set<Content> transferedContents) {
+//        content.setAvailabilityExpression(createExecutionCourseResponsibleTeachersGroup(executionCourseTo).getExpression());
+//        transferedContents.add(content);
+//        if (content.isContainer()) {
+//            final Container container = (Container) content;
+//            for (final Node node : container.getOrderedDirectChildren()) {
+//                changeGroups(executionCourseTo, node.getChild(), transferedContents);
+//            }
+//        }
 
-            changeGroups(executionCourseTo, content, transferedContents);
-        }
-
-        if (transferedContents.size() > 0) {
-            final Set<String> bccs = createListOfEmailAddresses(executionCourseTo);
-            final StringBuilder message = new StringBuilder();
-            message.append(BundleUtil
-                    .getStringFromResourceBundle("resources.GlobalResources", "mergeExecutionCourses.email.body"));
-
-            for (final Content content : transferedContents) {
-                message.append("\n\t");
-                message.append(content.getName());
-            }
-
-            message.append(BundleUtil.getStringFromResourceBundle("resources.GlobalResources",
-                    "mergeExecutionCourses.email.greetings"));
-            SystemSender systemSender = Bennu.getInstance().getSystemSender();
-            new Message(systemSender, systemSender.getConcreteReplyTos(), Collections.EMPTY_LIST,
-                    BundleUtil.getStringFromResourceBundle("resources.GlobalResources", "mergeExecutionCourses.email.subject",
-                            new String[] { executionCourseTo.getNome() }), message.toString(), bccs);
-        }
-    }
-
-    private void changeGroups(final ExecutionCourse executionCourseTo, final Content content,
-            final Set<Content> transferedContents) {
-        if (content.getAvailabilityPolicy() != null) {
-            content.getAvailabilityPolicy().delete();
-            final Group group = createExecutionCourseResponsibleTeachersGroup(executionCourseTo);
-            if (group != null) {
-                new GroupAvailability(content, group);
-            }
-            transferedContents.add(content);
-        }
-        if (content.isContainer()) {
-            final Container container = (Container) content;
-            for (final Node node : container.getOrderedDirectChildren()) {
-                changeGroups(executionCourseTo, node.getChild(), transferedContents);
-            }
-        }
-        if (content instanceof Attachment) {
-            Attachment attachment = (Attachment) content;
-
-            FileContent file = attachment.getFile();
-            if (file.getPermittedGroup() != null && !(file.getPermittedGroup() instanceof EveryoneGroup)) {
-                file.setPermittedGroup(createExecutionCourseResponsibleTeachersGroup(executionCourseTo));
-            }
-        }
-    }
+//        if (content instanceof Section) {
+//            for (FileContent file : ((Section) content).getChildrenFiles()) {
+//                if (file.getPermittedGroup() != null && !(file.getPermittedGroup() instanceof EveryoneGroup)) {
+//                    file.setPermittedGroup(createExecutionCourseResponsibleTeachersGroup(executionCourseTo));
+//                }
+//            }
+//        }
+//    }
 
     private Set<String> createListOfEmailAddresses(final ExecutionCourse executionCourseTo) {
         final Set<String> emails = new HashSet<String>();

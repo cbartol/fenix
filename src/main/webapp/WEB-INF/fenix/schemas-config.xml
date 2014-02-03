@@ -16,7 +16,6 @@
 	<!ENTITY cron SYSTEM "schemas/cron-schemas.xml">
 	<!ENTITY prices SYSTEM "schemas/prices-schemas.xml">
 	<!ENTITY serviceRequests SYSTEM "schemas/serviceRequests-schemas.xml">
-    <!ENTITY functionalities SYSTEM "schemas/functionalities-schemas.xml">
     <!ENTITY degreeAdminOffice SYSTEM "schemas/degreeAdministrativeOffice-schemas.xml">    
     <!ENTITY executionCourse SYSTEM "schemas/executionCourse-schemas.xml"> 
     <!ENTITY parking SYSTEM "schemas/parking-schemas.xml"> 
@@ -44,7 +43,6 @@
     <!ENTITY delegatesSchemas SYSTEM "schemas/delegates-schemas.xml">
     <!ENTITY cardGeneration SYSTEM "schemas/cardGeneration-schemas.xml">
     <!--ENTITY facultyAdmOffice SYSTEM "facultyAdmOffice-schemas.xml"-->
-	<!ENTITY contentSchemas SYSTEM "schemas/content-schemas.xml">
 	<!ENTITY caseHandlingSchemas SYSTEM "schemas/caseHandling-schemas.xml">
 	<!ENTITY residenceManagement SYSTEM "schemas/residenceManagement-schemas.xml">
     <!ENTITY support SYSTEM "schemas/support-schemas.xml">
@@ -743,7 +741,6 @@
 	&cron;
 	&prices;
 	&serviceRequests;
-    &functionalities;
     &degreeAdminOffice;
     &executionCourse;
     &parking;
@@ -770,7 +767,6 @@
     &pedagogicalCouncilSchemas;
     &delegatesSchemas;
     &cardGeneration;
-    &contentSchemas;    
     &caseHandlingSchemas;
     &residenceManagement;
     &support;
