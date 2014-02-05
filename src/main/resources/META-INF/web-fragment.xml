@@ -156,10 +156,6 @@
         <url-pattern>*.faces</url-pattern>
     </filter-mapping>
     <filter-mapping>
-        <filter-name>RequestChecksumFilter</filter-name>
-        <url-pattern>*.jsp</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
     	<filter-name>FenixAPILanguageFilter</filter-name>
     	<url-pattern>/api/fenix/*</url-pattern>
     </filter-mapping>
