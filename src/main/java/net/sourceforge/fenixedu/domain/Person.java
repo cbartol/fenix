@@ -1257,9 +1257,13 @@ public class Person extends Person_Base {
         if (getPersonalPhotoEvenIfRejected() != null) {
             getPersonalPhotoEvenIfRejected().delete();
         }
-        if (hasParkingParty()) {
-            getParkingParty().delete();
-        }
+
+        /*
+         * Added Listener on parking module to delete this relation
+         */
+//        if (hasParkingParty()) {
+//            getParkingParty().delete();
+//        }
         if (hasAssociatedPersonAccount()) {
             getAssociatedPersonAccount().delete();
         }
@@ -1317,17 +1321,10 @@ public class Person extends Person_Base {
                 && !hasAnyAssociatedQualifications() && !hasAnyAssociatedAlteredCurriculums() && !hasAnyEnrolmentEvaluations()
                 && !hasAnyExportGroupingSenders() && !hasAnyResponsabilityTransactions() && !hasAnyMasterDegreeCandidates()
                 && !hasAnyGuides() && !hasEmployee() && !hasTeacher() && !hasAnyPayedGuides() && !hasAnyPayedReceipts()
-                && !hasParking() && !hasAnyResearchInterests() && !hasAnyProjectParticipations() && !hasAnyParticipations()
-                && !hasAnyBoards() && !hasAnyPersonFunctions() && (!hasHomepage() || getHomepage().isDeletable())
-                && !hasLibraryCard() && !hasAnyCardGenerationEntries() && !hasAnyInternalParticipants()
-                && !hasAnyCreatedQualifications() && !hasAnyCreateJobs();
-    }
-
-    private boolean hasParking() {
-        if (hasParkingParty()) {
-            return getParkingParty().hasAnyVehicles();
-        }
-        return false;
+                && !hasAnyResearchInterests() && !hasAnyProjectParticipations() && !hasAnyParticipations() && !hasAnyBoards()
+                && !hasAnyPersonFunctions() && (!hasHomepage() || getHomepage().isDeletable()) && !hasLibraryCard()
+                && !hasAnyCardGenerationEntries() && !hasAnyInternalParticipants() && !hasAnyCreatedQualifications()
+                && !hasAnyCreateJobs();
     }
 
     public ExternalContract getExternalContract() {

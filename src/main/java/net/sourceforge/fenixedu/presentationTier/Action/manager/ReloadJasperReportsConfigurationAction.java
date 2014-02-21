@@ -26,7 +26,7 @@ public class ReloadJasperReportsConfigurationAction extends Action {
         ReportsUtils.getReportsMap().clear();
 
         ReportsUtils.getProperties().clear();
-        ReportsUtils.loadProperties(ReportsUtils.getProperties(), ReportsUtils.getReportsPropertiesFile());
+        ReportsUtils.loadReportsProperties(ReportsUtils.getProperties(), ReportsUtils.getReportsPropertiesFile());
 
         logger.info("reloaded jasper reports configuration");
         return null;

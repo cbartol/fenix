@@ -41,7 +41,6 @@
       "LibraryResources",
       "ManagerResources",
       "MessagingResources",
-      "ParkingResources",
       "PedagogicalCouncilResources",
       "PersonalInformationResources",
       "PhdResources",
@@ -72,7 +71,6 @@
   "modules": [
     { "name": "teacher", "configFile": "struts-teacher.xml" },
     { "name": "researcher", "configFile": "struts-researcher.xml" },
-    { "name": "parkingManager", "configFile": "struts-parkingManager.xml" },
     { "name": "academicAdministration", "configFile": "struts-academicAdministration.xml" },
     { "name": "external", "configFile": "struts-external.xml" },
     { "name": "microPayments", "configFile": "struts-microPayments.xml" },
